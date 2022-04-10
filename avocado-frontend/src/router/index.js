@@ -1,18 +1,24 @@
 import { createWebHistory, createRouter } from "vue-router";
 
-import RegistarationScreen from '../RegistarationScreen'
-import SignInScreen from '../SignInScreen'
+import RegistarationScreen from '../screens/RegistrationScreen'
+import SignInScreen from '../screens/SignInScreen'
+import ContentScreen from '../screens/ContentScreen'
 
 const routes = [
     {
-        path: '/',
-        name: 'RegistarationScreen',
+        path: '/regist',
+        name: 'RegistrationScreen',
         component: RegistarationScreen
     },
     {
-        path: '/signIn',
+        path: '/sign-in',
         name: 'SignInScreen',
         component: SignInScreen
+    },
+    {
+        path: '/content',
+        name: 'ContentScreen',
+        component: ContentScreen
     }
 ]
 const router = createRouter({
