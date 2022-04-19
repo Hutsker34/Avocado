@@ -9,9 +9,23 @@
                 name="login" 
                 rules="required|email"
             />
-            <ErrorMessage name='login'/>
-            <input v-model='password' class='site__input password' placeholder='password' type = 'password'>
-            <input v-model='passwordRepeat' class='site__input repeatPassword' placeholder='repeat password' type = 'password'>
+            <ErrorMessage class='site__loginErrorMess' name='login'/>
+            <Field 
+                placeholder="password" 
+                class='site__input' 
+                name="password" 
+                type = 'password'
+                rules="required|email"
+            />
+             <ErrorMessage class='site__loginErrorMess' name='password'/>
+            <Field 
+                placeholder="password" 
+                class='site__input' 
+                name="passwordRepeat" 
+                type = 'password'
+                rules="required|email"
+            />
+             <ErrorMessage class='site__loginErrorMess' name='passwordRepeat'/>
         </Form>
         <div class='site__links'>
             <router-link class='site__link' to="/signIn">signIn</router-link>
@@ -66,7 +80,7 @@ body{
     margin-bottom: 10px;
 }
 .site__inputs{
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     align-items: center;
 
@@ -96,5 +110,11 @@ body{
 }
 .site__link:hover{
     color: black;
+}
+.site__loginErrorMess{
+    margin: 0;
+    font-size: 14px;
+    color: red;
+    
 }
 </style>
