@@ -17,7 +17,7 @@ export default {
     name: 'SignInScreen'
 }
 </script>
-<style>
+<style scoped>
     .site__h1{
     font-size: 46px;
     color: #9BC472;

@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import { defineRule } from 'vee-validate';
 
+
 createApp(App).use(router).mount('#app')
 
 defineRule('email', value => {
@@ -21,5 +22,13 @@ defineRule('required', value => {
     if (!value || !value.length) {
       return 'This field is required';
     }
+    return true;
+  });
+
+  defineRule("confirmed", (value, [other]) => {
+    if (value !== other) {
+      return `Passwords do not match`;
+    }
+  
     return true;
   });

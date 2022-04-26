@@ -2,7 +2,7 @@
     <div class='site'>
         <img src='../assets/avo.png'>
         <h1 class='site__h1'>Avocado</h1>
-        <Form class='site__inputs' @submit='createAccount'>
+        <Form class='site__inputs' @submit='registration'>
             <Field 
                 placeholder="login" 
                 class='site__input' 
@@ -15,7 +15,7 @@
                 class='site__input' 
                 name="password" 
                 type = 'password'
-                rules="required|email"
+                rules="required"
             />
              <ErrorMessage class='site__loginErrorMess' name='password'/>
             <Field 
@@ -23,18 +23,23 @@
                 class='site__input' 
                 name="passwordRepeat" 
                 type = 'password'
-                rules="required|email"
+                rules="required|confirmed:@password"
             />
              <ErrorMessage class='site__loginErrorMess' name='passwordRepeat'/>
+             <div class='site__links'>
+             <router-link class='site__link' to="/signIn">signIn</router-link>
+             <button  type="submit"  class='site__button'>create an account</button>
+             </div>
         </Form>
-        <div class='site__links'>
-            <router-link class='site__link' to="/signIn">signIn</router-link>
-            <button  class='site__button'>create an account</button>
-        </div>
+        
     </div>
 </template>
 <script>
 import { Field, Form, ErrorMessage} from 'vee-validate';
+import * as yup from "yup";
+import axios from 'axios';
+
+const url = 'http://localhost:3001/api'
 
 export default {
     name: 'RegistrationScreen',
@@ -44,18 +49,34 @@ export default {
         ErrorMessage
     },
     data(){
+        const schema = yup.object().shape({
+        password: yup.string().min(5).required(),
+        passwordConfirmation: yup
+            .string()
+            .required()
+            .oneOf([yup.ref("password")], "Passwords do not match"),
+        });
+        
         return{
             login:'',
             password:'',
-            passwordRepeat:''
+            passwordRepeat:'',
+            schema
         }
     },
     methods: {
         isRequired(value){
             return value ? true : 'This field is required';
         },
-        createAccount(){
-            console.log(this.login, this.password, this.passwordRepeat)
+        registration(){
+            console.log(this)
+            axios.post(`${url}/bio`,{
+                name: 'roman',
+                email: this.login,
+                password: this.password
+            }).then(
+                console.log
+            )
         }
     },
 }
@@ -82,7 +103,7 @@ body{
 .site__inputs{
     display: inline-flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
 
 }
 .site__button{
@@ -115,6 +136,8 @@ body{
     margin: 0;
     font-size: 14px;
     color: red;
+    text-align: initial;
+    margin-bottom: 5px;
     
 }
 </style>
