@@ -4,6 +4,12 @@
         <h1 class='site__h1'>Avocado</h1>
         <Form class='site__inputs' @submit='registration'>
             <Field 
+                placeholder="name" 
+                class='site__input' 
+                name="name" 
+                rules="required"
+            />
+            <Field 
                 placeholder="login" 
                 class='site__input' 
                 name="login" 
@@ -31,7 +37,6 @@
              <button  type="submit"  class='site__button'>create an account</button>
              </div>
         </Form>
-        
     </div>
 </template>
 <script>
@@ -58,6 +63,7 @@ export default {
         });
         
         return{
+            name:'',
             login:'',
             password:'',
             passwordRepeat:'',
@@ -68,12 +74,12 @@ export default {
         isRequired(value){
             return value ? true : 'This field is required';
         },
-        registration(){
-            console.log(this)
+        registration({login, password,name}){
+            
             axios.post(`${url}/bio`,{
-                name: 'roman',
-                email: this.login,
-                password: this.password
+                name: name,
+                email: login,
+                password: password
             }).then(
                 console.log
             )
