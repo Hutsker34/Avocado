@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
+mongoose.set('useCreateIndex', true);
 
 const app = express();
 const port = 3001;
@@ -21,6 +22,7 @@ mongo.then(() => {
     console.log(error, 'error');
 });
 const db = mongoose.connection;
+
 
 //Check DB Connection
 if (!db)

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
+
 //schema
 const bioSchema = mongoose.Schema({
     name: {
@@ -13,7 +14,8 @@ const bioSchema = mongoose.Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     created_at: {
         type: Date,
