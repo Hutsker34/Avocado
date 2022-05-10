@@ -4,6 +4,7 @@
         <h1 class='site__h1'>Avocado</h1>
         <Form class='site__inputs' @submit='signIn'>
             <Field 
+                @focus = 'errorClear'
                 class='site__input login' 
                 placeholder='Email'
                 name = 'login'
@@ -19,6 +20,7 @@
             />
              <ErrorMessage class='site__loginErrorMess' name='password'/>
              <ErrorMessage class='site__loginErrorMess' name=''/>
+             <div class='site__loginErrorMess' v-if="backendError">{{backendError}}</div>
             <div class='site__links'>
                 <router-link class='site__link' to="/signIn">create an account</router-link>
                 <button class='site__button'>sign-in</button>
@@ -27,17 +29,14 @@
     </div>
 </template>
 <script>
-import { Field, Form, ErrorMessage, ErrorBag} from 'vee-validate';
+import { Field, Form, ErrorMessage} from 'vee-validate';
 import * as yup from "yup";
 import axios from 'axios';
 
 const url = 'http://localhost:3001/api'
-const bag = new ErrorBag();
 
-bag.add({
-  field: 'auth',
-  msg: 'что то сломалось'
-});
+
+
 
 export default {
     name: 'SignInScreen',
@@ -56,7 +55,8 @@ export default {
         return{
             login:'',
             password:'',
-            schema
+            schema,
+            backendError:''
         }
        
     },
@@ -68,23 +68,20 @@ export default {
             axios.post(`${url}/login`,{
                 email: login,
                 password,
-            }).then(
-                (response)=>{
-                    if(response.status == 404){
-                        alert('неправильный логин или пароль')
-                    }
-                    console.log(response)
-                }
-            ).catch(
+            }).catch(
                 ({response})=>{
                     if(response.status == 404){
-                        bag.first('auth');
+                        this.backendError = 'Incorrect login'
+                    }else if(response.status == 401){
+                        this.backendError = 'Incorrect password'
                     }
-                    console.log(response.status, response)
                 }
             )
+        },
+
+        errorClear(){
+            this.backendError = ''
         }
-        
 
     }
 }

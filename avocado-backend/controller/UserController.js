@@ -28,20 +28,23 @@ router.route('/bio/:bio_id')
  * https://dev.to/eidorianavi/authentication-and-jwt-in-node-js-4i13
  */
 router.post('/login', async (req, res) => {
-    const user = await bioController.findOne({email: req.body.email});
-     if (user == null) {
-    return res.status(404).send({
-        message: 'такого пользователя не существует'
-    });
-     } 
+    const user = await bioController.findOne({ email: req.body.email });
+    if (user == null) {
+        return res.status(404).send({
+            message: 'такого пользователя не существует'
+        });
+    }
 
     try {
         const match = await bcrypt.compare(req.body.password, user.password);
-        const accessToken = jwt.sign(JSON.stringify(user), `${process.env.TOKEN_SECRET}`);
+        console.log(user.password)
+        const accessToken = jwt.sign(JSON.stringify(user), `asdsasd`);
         if (match) {
-            await res.json({accessToken: accessToken});
+            await res.json({ accessToken: accessToken });
         } else {
-            await res.json({message: "Invalid Credentials"});
+            return res.status(401).send({
+                message: 'неправильный пароль'
+            })
         }
     } catch (e) {
         console.log(e)
