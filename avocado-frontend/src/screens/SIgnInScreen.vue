@@ -22,7 +22,7 @@
              <ErrorMessage class='site__loginErrorMess' name=''/>
              <div class='site__loginErrorMess' v-if="backendError">{{backendError}}</div>
             <div class='site__links'>
-                <router-link class='site__link' to="/signIn">create an account</router-link>
+                <router-link class='site__link' to="/regist">create an account</router-link>
                 <button class='site__button'>sign-in</button>
             </div>
         </Form>

@@ -22,6 +22,7 @@ const bioSchema = mongoose.Schema({
         default: Date.now
     }
 });
+bioSchema.index({ "email": 1 }, { unique: true } );
 
 // Export Bio Model
 const Bio = mongoose.model('bio', bioSchema);

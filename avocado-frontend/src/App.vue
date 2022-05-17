@@ -1,8 +1,6 @@
 <template>
   <div id="nav">
-  <router-link to="/sign-in">sign-In</router-link> |
-  <router-link to="/regist">regist</router-link> |
-  <router-link to="/content">content</router-link>
+ 
   </div>
   <router-view />
 </template>
@@ -27,7 +25,10 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  
+}
+body{
+  margin: 0;
 }
 
 </style>

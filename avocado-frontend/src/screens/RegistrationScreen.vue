@@ -33,7 +33,7 @@
             />
              <ErrorMessage class='site__loginErrorMess' name='passwordRepeat'/>
              <div class='site__links'>
-             <router-link class='site__link' to="/signIn">signIn</router-link>
+             <router-link class='site__link' to="/sign-in">signIn</router-link>
              <button  type="submit"  class='site__button'>create an account</button>
              </div>
         </Form>
@@ -90,6 +90,9 @@ export default {
 <style>
 body{
     background: #CBF6DB;
+}
+.site{
+    margin-top: 20px;
 }
 .site__h1{
     font-size: 46px;

@@ -5,8 +5,14 @@ import SignInScreen from '../screens/SignInScreen'
 import ContentScreen from '../screens/ContentScreen'
 import Chat from '../screens/content/Chat'
 import Friends from '../screens/content/Friends'
+import Profile from '../screens/content/Profile'
 
 const routes = [
+    {
+        path: '/',
+        name: 'RegistrationScreen',
+        component: RegistarationScreen
+    },
     {
         path: '/regist',
         name: 'RegistrationScreen',
@@ -31,6 +37,11 @@ const routes = [
                 path: '/friends',
                 name: 'Friends',
                 component: Friends
+            },
+            {
+                path: '/profile',
+                name: 'profile',
+                component: Profile
             }
         ]
     }

@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
-mongoose.set('useCreateIndex', true);
 
 const app = express();
 const port = 3001;
@@ -13,6 +12,7 @@ const port = 3001;
 const dbPath = 'mongodb://localhost/Avocado';
 const options = {useNewUrlParser: true, useUnifiedTopology: true};
 const mongo = mongoose.connect(dbPath, options);
+mongoose.set('useCreateIndex', true);
 
 const apiRoutes = require('./controller/UserController');
 
