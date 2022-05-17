@@ -32,6 +32,8 @@
 import { Field, Form, ErrorMessage} from 'vee-validate';
 import * as yup from "yup";
 import axios from 'axios';
+import router from '../router';
+import {setToken} from '../helpers.js'
 
 const url = 'http://localhost:3001/api'
 
@@ -68,7 +70,13 @@ export default {
             axios.post(`${url}/login`,{
                 email: login,
                 password,
-            }).catch(
+            }).then(
+                function({data}){
+                    router.push({ path: '/profile', replace: true })
+                    setToken(data.accessToken)
+                }
+
+            ).catch(
                 ({response})=>{
                     if(response.status == 404){
                         this.backendError = 'Incorrect login'

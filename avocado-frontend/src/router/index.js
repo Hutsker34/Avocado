@@ -9,17 +9,12 @@ import Profile from '../screens/content/Profile'
 
 const routes = [
     {
-        path: '/',
-        name: 'RegistrationScreen',
-        component: RegistarationScreen
-    },
-    {
         path: '/regist',
         name: 'RegistrationScreen',
         component: RegistarationScreen
     },
     {
-        path: '/sign-in',
+        path: '/',
         name: 'SignInScreen',
         component: SignInScreen
     },
@@ -51,5 +46,7 @@ const router = createRouter({
     history: createWebHistory(),
     routes,
 });
+
+router.replace({ path: '*', redirect: '/' })
 
 export default router;

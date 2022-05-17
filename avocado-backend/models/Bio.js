@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 
 //schema
@@ -60,9 +61,11 @@ Bio.getById = function (req, res) {
 
 Bio.add = async function (req, res) {
     const bio = new Bio();
+    const accessToken = jwt.sign(JSON.stringify(bio), `asdsasd`);
     bio.name = req.body.name ? req.body.name : bio.name;
     bio.email = req.body.email;
     bio.password = await bcrypt.hash(req.body.password, 10);
+    bio.accessToken = await res.json({ accessToken: accessToken });
 
     //Save and check error
     bio.save(function (err) {
@@ -71,7 +74,8 @@ Bio.add = async function (req, res) {
 
         res.json({
             message: "New Bio Added!",
-            data: bio
+            data: bio,
+            accessToken: accessToken,
         });
     });
 };

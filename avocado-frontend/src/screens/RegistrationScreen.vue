@@ -33,7 +33,7 @@
             />
              <ErrorMessage class='site__loginErrorMess' name='passwordRepeat'/>
              <div class='site__links'>
-             <router-link class='site__link' to="/sign-in">signIn</router-link>
+             <router-link class='site__link' to="/">signIn</router-link>
              <button  type="submit"  class='site__button'>create an account</button>
              </div>
         </Form>
@@ -43,6 +43,10 @@
 import { Field, Form, ErrorMessage} from 'vee-validate';
 import * as yup from "yup";
 import axios from 'axios';
+import router from '../router'
+import {setToken} from '../helpers.js'
+
+
 
 const url = 'http://localhost:3001/api'
 
@@ -81,7 +85,10 @@ export default {
                 email: login,
                 password: password
             }).then(
-                console.log
+               function({data}){
+                   router.push({ path: '/profile', replace: true })
+                   setToken(data.accessToken)
+               }
             )
         }
     },
