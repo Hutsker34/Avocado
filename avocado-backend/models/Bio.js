@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const helpers = require('../helpers.js')
+
 
 
 //schema
@@ -59,13 +61,25 @@ Bio.getById = function (req, res) {
     });
 };
 
+Bio.getInfo = function (req, res) {
+    console.log(helpers.getUserId)
+    // https://mongoosejs.com/docs/api.html#model_Model.findById
+    Bio.findById(helpers.getUserId(req), function (err, bio) {
+        if (err)
+            res.send(err);
+        res.json({
+            message: 'Bio Details',
+            data: bio
+        });
+    });
+};
+
 Bio.add = async function (req, res) {
     const bio = new Bio();
-    const accessToken = jwt.sign(JSON.stringify(bio), `asdsasd`);
+    const accessToken = jwt.sign(JSON.stringify(bio), helpers.KEY);
     bio.name = req.body.name ? req.body.name : bio.name;
     bio.email = req.body.email;
     bio.password = await bcrypt.hash(req.body.password, 10);
-    bio.accessToken = await res.json({ accessToken: accessToken });
 
     //Save and check error
     bio.save(function (err) {

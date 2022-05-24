@@ -2,6 +2,7 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const helpers = require('../helpers.js')
 
 //set default API response
 router.get('/', function (req, res) {
@@ -18,6 +19,10 @@ const bioController = require('../models/Bio');
 router.route('/bio')
     .get(bioController.index)
     .post(bioController.add);
+
+router.route('/userInfo')
+    .get(bioController.getInfo)
+
 
 router.route('/bio/:bio_id')
     .get(bioController.getById)
@@ -37,8 +42,9 @@ router.post('/login', async (req, res) => {
 
     try {
         const match = await bcrypt.compare(req.body.password, user.password);
+        
         console.log(user.password)
-        const accessToken = jwt.sign(JSON.stringify(user), `asdsasd`);
+        const accessToken = jwt.sign(JSON.stringify(user), helpers.KEY);
         if (match) {
             await res.json({ accessToken: accessToken });
         } else {

@@ -2,7 +2,7 @@
     <div class='profile'>
         <div class='user__info'>
             <img src='https://pomogaetsrazu.ru/images/offers/969532582.jpg' class='user__avatar'>
-            <h1 class='user__name'>Name</h1>
+            <h1  class='user__name'>{{userName}}</h1>
         </div>
         <div class='posts'>
             <div class='post__ceate--post'>
@@ -17,8 +17,35 @@
     </div>
 </template>
 <script>
+
+const url = 'http://localhost:3001/api'
+
+import axios from 'axios'
+import {authHeader} from '../../helpers.js'
+
 export default {
-    
+    data(){
+        return{
+            userName: 'Name',
+        }
+    },
+    methods: {
+        getUserName(){
+            //const self = this
+            console.log(this.userName)
+            axios.get(`${url}/userInfo`,{
+                headers: authHeader(),
+            }).then(
+                ({data})=>{
+                    this.userName = data.name
+                   // console.log(self.userName)
+                }
+            )
+        }
+    },
+    mounted() {
+        this.getUserName()
+    }
 }
 </script>
 <style scoped>
