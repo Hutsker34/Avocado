@@ -37,7 +37,7 @@ export default {
                 headers: authHeader(),
             }).then(
                 ({data})=>{
-                    this.userName = data.name
+                    this.userName = data.data.name
                    // console.log(self.userName)
                 }
             )

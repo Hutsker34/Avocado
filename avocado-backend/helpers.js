@@ -2,9 +2,13 @@ const jwt = require('jsonwebtoken');
 const KEY = 'HSJDKVYFJFU'
 
 const getUserId = (req) => {
-    const authHeader = req.headers.authorization;
-    const token = authHeader.split(': ')[1];
-
+    let token = ''
+    try{
+        const authHeader = req.headers.authorization;
+        token = authHeader.split(': ')[1];
+    } catch(error){
+        console.log(error)
+    }
     return jwt.verify(token, `${KEY}`);
 };
 

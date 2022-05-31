@@ -1,45 +1,31 @@
-<template >
-    <div v-for="(item, index) in users" :key="index" class='messages'>
-        <Friend  class='message' :friend='item' />
-    </div>
+<template>
+        <div class='message'>
+            <img src='../../assets/avatar.png' class='avatar'>
+            <div class='text-wrap'>
+                <h1 class='name'>{{friend.name}}</h1>
+                <p class='reading'>reading</p>
+            </div>
+        </div>
 </template>
 <script>
-import Friend from './Friend.vue'
-import axios from 'axios'
-
-const url = 'http://localhost:3001/api'
-
 export default {
-    components: {
-        Friend
+    name: "Friend",
+    props: {
+        friend: Object
     },
     data(){
-        return {
-            users: []
+        return{
+            username: 'name'
         }
     },
-    methods: {
-        getUsers(){
-            axios.get(`${url}/bio`,{
-
-            }).then(
-                ({data})=>{
-                    console.log(this)
-                    this.users = data.data
-                }
-            )
-        }
-    },
+    
     mounted() {
-        this.getUsers()
+        console.log(this.friend)
     }
+
 }
 </script>
 <style scoped>
-    .messages{
-        display: flex;
-        flex-direction: column;
-    }
     .message{
         width: 100%;
         height: 86px;

@@ -6,6 +6,7 @@ import ContentScreen from '../screens/ContentScreen'
 import Chat from '../screens/content/Chat'
 import Friends from '../screens/content/Friends'
 import Profile from '../screens/content/Profile'
+import Messages from '../screens/content/Messages'
 
 const routes = [
     {
@@ -26,7 +27,8 @@ const routes = [
             {
                 path: '/chat',
                 name: 'Chat',
-                component: Chat
+                component: Chat,
+                
             },
             {
                 path: '/friends',
@@ -37,6 +39,11 @@ const routes = [
                 path: '/profile',
                 name: 'profile',
                 component: Profile
+            },
+            {
+                path: '/messages',
+                name: 'Messages',
+                component: Messages
             }
         ]
     }

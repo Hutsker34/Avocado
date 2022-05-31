@@ -15,6 +15,7 @@ const mongo = mongoose.connect(dbPath, options);
 mongoose.set('useCreateIndex', true);
 
 const apiRoutes = require('./controller/UserController');
+const chatRoutes = require('./controller/ChatController');
 
 mongo.then(() => {
     console.log('connected');
@@ -35,5 +36,6 @@ app.use(cors());
 app.use(express.urlencoded({extended: true}));
 
 app.use('/api', apiRoutes);
+app.use('/api', chatRoutes);
 
 app.listen(port);

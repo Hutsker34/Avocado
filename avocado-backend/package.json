@@ -19,5 +19,8 @@
     "mongoose": "^5.13.14",
     "node": "^17.7.2",
     "nodemon": "^1.19.4"
+  },
+  "devDependencies": {
+    "ws": "3.3.2"
   }
 }
