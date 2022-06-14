@@ -1,11 +1,13 @@
 <template >
     <div v-for="(item, index) in users" :key="index" class='messages'>
-        <Friend v-on:click='addChat' class='message' :friend='item' />
+        <Friend v-on:click='addChat(item._id)' class='message' :friend='item' />
     </div>
 </template>
 <script>
 import Friend from './Friend.vue'
 import axios from 'axios'
+import {getToken} from '../../helpers.js'
+import router from '../../router'
 
 const url = 'http://localhost:3001/api'
 
@@ -24,18 +26,17 @@ export default {
 
             }).then(
                 ({data})=>{
-                    console.log(this)
                     this.users = data.data
                 }
             )
         },
-        addChat(){
+        addChat(_id){
             axios.post(`${url}/chat`,{
-                sender_id: "629636cf3910ee22c0b8eb01",
-                receiver_id: "62963bda3910ee22c0b8eb09"
+                sender_id: getToken('user')._id,
+                receiver_id: _id
             }).then(
                ({data})=>{
-                    console.log(data)
+                    router.push({ path: `/messages/${data.data._id}`, replace: true })
                 }
             )
         }

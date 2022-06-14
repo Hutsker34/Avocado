@@ -41,7 +41,7 @@ const routes = [
                 component: Profile
             },
             {
-                path: '/messages',
+                path: '/messages/:id',
                 name: 'Messages',
                 component: Messages
             }

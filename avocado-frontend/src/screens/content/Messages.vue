@@ -2,15 +2,36 @@
     <div class='messages'>
         <div class='friend__profile'>
             <button class='back'> ⇽ back </button>
-            <h1 class='name'>James</h1>
+            <h1 class='name'>{{userName}}</h1>
             <img src='../../assets/avatar.png' class='avatar'>
         </div>
         <input class='input' placeholder='type a message'/>
     </div>
 </template>
 <script>
+import axios from 'axios'
+
+const url = 'http://localhost:3001/api'
+
 export default {
-    
+     data(){
+        return{
+            userName: 'Name',
+        }
+    },
+    methods: {
+
+    },
+    mounted() {
+       axios.get(`${url}/chat/${this.$route.params.id}`,{
+
+            }).then(
+                ({data})=>{
+                    this.userName = data.data.receiver_id
+                    console.log(data)
+                }
+            )
+    }
 }
 </script>
 <style scoped>

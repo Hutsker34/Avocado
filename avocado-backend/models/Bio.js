@@ -80,7 +80,7 @@ Bio.add = async function (req, res) {
     bio.name = req.body.name ? req.body.name : bio.name;
     bio.email = req.body.email;
     bio.password = await bcrypt.hash(req.body.password, 10);
-
+    
     //Save and check error
     bio.save(function (err) {
         if (err)

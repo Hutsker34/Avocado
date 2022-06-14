@@ -7,4 +7,7 @@ const chatController = require('../models/Chat');
 router.route('/chat')
     .post(chatController.add);
 
+ router.route('/chat/:id')
+    .get(chatController.getById)
+
 module.exports = router;

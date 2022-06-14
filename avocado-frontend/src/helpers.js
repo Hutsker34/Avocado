@@ -1,9 +1,9 @@
-export function setToken(tok){
-    localStorage.setItem('accessToken', tok)
+export function setToken(param, value){
+    localStorage.setItem(param, value)
 }
 
-export function getToken(){
-  return  localStorage.getItem('accessToken')
+export function getToken(param){
+  return  JSON.parse(localStorage.getItem(param))
 }
 
 export function deleteToken(){

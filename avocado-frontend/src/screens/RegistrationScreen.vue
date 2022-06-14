@@ -87,8 +87,11 @@ export default {
             }).then(
                function({data}){
                    router.push({ path: '/profile', replace: true })
-                   setToken(data.accessToken)
+                   setToken('accessToken', data.accessToken)
+                   setToken('user', JSON.stringify(data.data))
                }
+            ).catch(
+                console.log
             )
         }
     },

@@ -32,7 +32,6 @@ export default {
     methods: {
         getUserName(){
             //const self = this
-            console.log(this.userName)
             axios.get(`${url}/userInfo`,{
                 headers: authHeader(),
             }).then(
