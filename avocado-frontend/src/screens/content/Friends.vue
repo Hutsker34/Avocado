@@ -1,6 +1,6 @@
 <template >
     <div v-for="(item, index) in users" :key="index" class='messages'>
-        <Friend  class='message' :friend='item' />
+        <Friend v-on:click='addChat' class='message' :friend='item' />
     </div>
 </template>
 <script>
@@ -26,6 +26,16 @@ export default {
                 ({data})=>{
                     console.log(this)
                     this.users = data.data
+                }
+            )
+        },
+        addChat(){
+            axios.post(`${url}/chat`,{
+                sender_id: "629636cf3910ee22c0b8eb01",
+                receiver_id: "62963bda3910ee22c0b8eb09"
+            }).then(
+               ({data})=>{
+                    console.log(data)
                 }
             )
         }

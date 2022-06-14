@@ -1,25 +1,9 @@
 <template >
     <div class='messages'>
-        <div class='message'>
+        <div class='friend__profile'>
+            <button class='back'> ⇽ back </button>
+            <h1 class='name'>James</h1>
             <img src='../../assets/avatar.png' class='avatar'>
-            <div class='text-wrap'>
-                <h1 class='name'>James</h1>
-                <p class='last-message'>how are you?</p>
-            </div>
-        </div>
-        <div class='message'>
-            <img src='../../assets/avatar.png' class='avatar'>
-            <div class='text-wrap'>
-                <h1 class='name'>James</h1>
-                <p class='last-message'>how are you?</p>
-            </div>
-        </div>
-        <div class='message'>
-            <img src='../../assets/avatar.png' class='avatar'>
-            <div class='text-wrap'>
-                <h1 class='name'>James</h1>
-                <p class='last-message'>how are you?</p>
-            </div>
         </div>
         <input class='input' placeholder='type a message'/>
     </div>
@@ -30,40 +14,48 @@ export default {
 }
 </script>
 <style scoped>
-    .input{
-       margin: 25px 0 0 0 ;
-    }
     .messages{
         display: flex;
-        flex-direction: column;
+        height: 100%;
+        justify-content: space-between
     }
-    .message{
+    
+    .back{
+        background: none;
+        border: none;
+        margin: 20px;
+    }
+    .back:hover{
+        color: grey;
+    }
+    .input{
+        margin: 0 10px 30px 10px ;
+        padding: 4px 4px 4px 4px;
+        border-radius: 5px ;
+        border: 1px solid grey;
+        background: #9BC472;
+        
+    }
+    .friend__profile{
         width: 100%;
         height: 70px;
         border-bottom: solid 1px grey;
         display: inline-flex;
         flex-wrap: wrap;
         align-content: center;
+        justify-content: space-around
     }
     .message:hover{
         background: #88AD62;
     }
     .name{
-        margin: 0;
+        margin: 0 auto;
         font-size: 16px;
-    }
-    .last-message{
-        margin: 10px 0 0 0;
-        font-size: 12px;
+        margin-top: 15px;
     }
     .avatar{
         width: 50px;
-        margin: 5px 0 5px 20px;
+        margin: 5px 20px 5px 0;
     }
-    .text-wrap{
-        display: flex;
-        flex-direction: column;
-        margin: 8px 0 0 25px;
-        text-align: start;
-    }
+    
 </style>
