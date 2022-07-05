@@ -9,7 +9,7 @@
             </article>
             <aside class='site__menu'>
                 <router-link class='site__menu-link' to="/profile">profile</router-link>
-                <router-link class='site__menu-link' to="/chat">chats</router-link> 
+                <router-link class='site__menu-link' to="/chats">chats</router-link> 
                 <router-link class='site__menu-link' to="/friends">friends</router-link> 
             </aside>
         </div>

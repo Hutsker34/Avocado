@@ -9,7 +9,7 @@ import axios from 'axios'
 import {getToken} from '../../helpers.js'
 import router from '../../router'
 
-const url = 'http://localhost:3001/api'
+const url = 'http://localhost:3002/api'
 
 export default {
     components: {

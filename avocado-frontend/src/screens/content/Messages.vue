@@ -11,7 +11,7 @@
 <script>
 import axios from 'axios'
 
-const url = 'http://localhost:3001/api'
+const url = 'http://localhost:3002/api'
 
 export default {
      data(){
@@ -27,8 +27,15 @@ export default {
 
             }).then(
                 ({data})=>{
-                    this.userName = data.data.receiver_id
-                    console.log(data)
+                    axios.get(`${url}/bio/${data.data.receiver_id}`, {
+
+                    }).then(
+                        ({data})=>{
+                            this.userName = data.data.name
+                        }
+                    )
+                   
+                    
                 }
             )
     }

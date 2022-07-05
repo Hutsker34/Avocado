@@ -1,38 +1,29 @@
 <template >
-    <div class='messages'>
         <div class='message'>
             <img src='../../assets/avatar.png' class='avatar'>
             <div class='text-wrap'>
-                <h1 class='name'>James</h1>
+                <h1 class='name'>{{chat.name}}</h1>
                 <p class='last-message'>how are you?</p>
             </div>
         </div>
-        <div class='message'>
-            <img src='../../assets/avatar.png' class='avatar'>
-            <div class='text-wrap'>
-                <h1 class='name'>James</h1>
-                <p class='last-message'>how are you?</p>
-            </div>
-        </div>
-        <div class='message'>
-            <img src='../../assets/avatar.png' class='avatar'>
-            <div class='text-wrap'>
-                <h1 class='name'>James</h1>
-                <p class='last-message'>how are you?</p>
-            </div>
-        </div>
-    </div>
 </template>
 <script>
 export default {
-    
+    name: "Chat",
+    props: {
+        chat: Object
+    },
+    data(){
+        return{
+            
+        }
+    },
+    mounted(){
+        console.log(this.props)
+    }
 }
 </script>
 <style>
-    .messages{
-        display: flex;
-        flex-direction: column;
-    }
     .message{
         width: 100%;
         height: 70px;

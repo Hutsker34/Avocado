@@ -3,7 +3,7 @@ import { createWebHistory, createRouter } from "vue-router";
 import RegistarationScreen from '../screens/RegistrationScreen'
 import SignInScreen from '../screens/SignInScreen'
 import ContentScreen from '../screens/ContentScreen'
-import Chat from '../screens/content/Chat'
+import Chats from '../screens/content/Chats'
 import Friends from '../screens/content/Friends'
 import Profile from '../screens/content/Profile'
 import Messages from '../screens/content/Messages'
@@ -25,9 +25,9 @@ const routes = [
         component: ContentScreen,
         children: [
             {
-                path: '/chat',
-                name: 'Chat',
-                component: Chat,
+                path: '/chats',
+                name: 'Chats',
+                component: Chats,
                 
             },
             {

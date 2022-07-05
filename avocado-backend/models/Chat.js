@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const helpers = require('../helpers.js')
+const ChatUser = require('./ChatUser.js')
 
 
 
@@ -28,6 +29,9 @@ const chatSchema = mongoose.Schema({
 // Export Chat Model
 const Chat = mongoose.model('chat', chatSchema);
 
+Chat.get = function (callback, limit) {
+    Chat.find(callback).limit(limit);
+};
 
 Chat.add = async function (req, res) {
     const chat = new Chat();
@@ -78,6 +82,24 @@ Chat.getById = function (req, res) {
     });
 };
 
+Chat.index = function (req, res) {
+    Chat.get(async function (err, chats) {
+        if (err)
+            return res.json({
+                status: "error",
+                message: err
+            });
+                const getId = await ChatUser.getUserArticles(chats.map((item)=>{
+                    return item.receiver_id
+                }))
+                console.log('uuu', getId, 'uuu')
+        res.json({
+            status: "success",
+            message: "Got chat Successfully!",
+            data: chats
+        });
+    });
+};
 
 
 module.exports = Chat;

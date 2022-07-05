@@ -18,7 +18,7 @@
 </template>
 <script>
 
-const url = 'http://localhost:3001/api'
+const url = 'http://localhost:3002/api'
 
 import axios from 'axios'
 import {authHeader} from '../../helpers.js'
