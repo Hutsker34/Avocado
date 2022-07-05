@@ -2,7 +2,7 @@
         <div class='message'>
             <img src='../../assets/avatar.png' class='avatar'>
             <div class='text-wrap'>
-                <h1 class='name'>{{chat.name}}</h1>
+                <h1 class='name'>{{chat.user.name}}</h1>
                 <p class='last-message'>how are you?</p>
             </div>
         </div>

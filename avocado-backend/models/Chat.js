@@ -37,7 +37,7 @@ Chat.add = async function (req, res) {
     const chat = new Chat();
     chat.sender_id = req.body.sender_id
     chat.receiver_id = req.body.receiver_id
-    
+
     Chat.find({
         $and: [{ 'receiver_id': req.body.receiver_id }, { 'sender_id': req.body.sender_id }]
     }, function (err, data) {
@@ -72,7 +72,7 @@ Chat.getById = function (req, res) {
     console.log(req.params)
     // https://mongoosejs.com/docs/api.html#model_Model.findById
     Chat.findById(req.params.id, function (err, chat) {
-        console.log(err , chat)
+        console.log(err, chat)
         if (err)
             return res.send(err);
         res.json({
@@ -89,14 +89,18 @@ Chat.index = function (req, res) {
                 status: "error",
                 message: err
             });
-                const getId = await ChatUser.getUserArticles(chats.map((item)=>{
-                    return item.receiver_id
-                }))
-                console.log('uuu', getId, 'uuu')
+        const userData = await ChatUser.getUserArticles(chats.map((item) => {
+            return item.receiver_id
+        }))
         res.json({
             status: "success",
             message: "Got chat Successfully!",
-            data: chats
+            data: chats.map((chat) => {
+                return {
+                    ...chat._doc,
+                    user: userData[chat.receiver_id]
+                }
+            })
         });
     });
 };
