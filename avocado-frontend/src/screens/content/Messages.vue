@@ -5,15 +5,23 @@
             <h1 class='name'>{{userName}}</h1>
             <img src='../../assets/avatar.png' class='avatar'>
         </div>
+        <div class='message__wrap'>
+            <Message/>
+            <Message/>
+        </div>
         <input class='input' placeholder='type a message'/>
     </div>
 </template>
 <script>
 import axios from 'axios'
+import Message from './Message.vue'
 
-const url = 'http://localhost:3002/api'
+const url = 'http://localhost:3003/api'
 
 export default {
+    components: {
+        Message
+    },
      data(){
         return{
             userName: 'Name',
@@ -73,9 +81,6 @@ export default {
         align-content: center;
         justify-content: space-around
     }
-    .message:hover{
-        background: #88AD62;
-    }
     .name{
         margin: 0 auto;
         font-size: 16px;
@@ -84,6 +89,14 @@ export default {
     .avatar{
         width: 50px;
         margin: 5px 20px 5px 0;
+    }
+    .message__wrap{
+        display: inline-flex;
+        height:100%;
+        width:100%;
+        justify-content: flex-end;
+        align-items: flex-end;
+        flex-direction: column;
     }
     
 </style>

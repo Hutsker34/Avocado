@@ -8,7 +8,7 @@ import Chat from './Chat.vue'
 import axios from 'axios'
 
 
-const url = 'http://localhost:3002/api'
+const url = 'http://localhost:3003/api'
 
 export default {
     components:{
