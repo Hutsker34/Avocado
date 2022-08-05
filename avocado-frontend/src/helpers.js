@@ -3,7 +3,14 @@ export function setToken(param, value){
 }
 
 export function getToken(param){
-  return  JSON.parse(localStorage.getItem(param))
+    const a = localStorage.getItem(param)
+    let result = {}
+    try{
+        result = JSON.parse(a)
+    }catch(error){
+        console.log(error.message)
+    }
+  return  result
 }
 
 export function deleteToken(){

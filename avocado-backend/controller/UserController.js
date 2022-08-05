@@ -2,7 +2,9 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const helpers = require('../helpers.js')
+const helpers = require('../helpers.js');
+const Bio = require('../models/Bio');
+
 
 //set default API response
 router.get('/', function (req, res) {
@@ -46,7 +48,8 @@ router.post('/login', async (req, res) => {
         console.log(user.password)
         const accessToken = jwt.sign(JSON.stringify(user), helpers.KEY);
         if (match) {
-            await res.json({ accessToken: accessToken });
+            
+            await res.json({ accessToken: accessToken , data: helpers.destruct(user._doc)});
         } else {
             return res.status(401).send({
                 message: 'неправильный пароль'

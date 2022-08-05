@@ -1,14 +1,15 @@
 <template >
     <div  v-for="(item, index) in chats" :key="index" class='messages'>
-        <Chat :chat = 'item'  />
+        <Chat :chat = 'item' v-on:click='goToChat(item._id)' />
     </div>
 </template>
 <script>
 import Chat from './Chat.vue'
 import axios from 'axios'
+import {authHeader} from '../../helpers.js'
+import router from '../../router'
 
-
-const url = 'http://localhost:3003/api'
+const url = 'http://localhost:3006/api'
 
 export default {
     components:{
@@ -22,7 +23,7 @@ export default {
     methods: {
         getChats(){
             axios.get(`${url}/chat`,{
-
+                headers: authHeader(),
             }).then(
                 ({data})=>{
                     console.log(data.data)
@@ -30,6 +31,12 @@ export default {
                 }
             )
         },
+        goToChat(_id){
+            axios.get(`${url}/chat/:id`,{
+            }).then(
+                router.push({ path: `/messages/${_id}`, replace: true })
+            )
+        }
         
     },
     mounted() {

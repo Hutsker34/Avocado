@@ -12,5 +12,12 @@ const getUserId = (req) => {
     return jwt.verify(token, `${KEY}`);
 };
 
+function destruct(obj){
+    const {password ,__v , created_at , ...rest} = obj
+    return rest
+}
+
+
 exports.getUserId = getUserId
 exports.KEY = KEY
+exports.destruct = destruct

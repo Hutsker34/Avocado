@@ -48,7 +48,7 @@ import {setToken} from '../helpers.js'
 
 
 
-const url = 'http://localhost:3003/api'
+const url = 'http://localhost:3006/api'
 
 export default {
     name: 'RegistrationScreen',

@@ -35,7 +35,7 @@ import axios from 'axios';
 import router from '../router';
 import {setToken} from '../helpers.js'
 
-const url = 'http://localhost:3003/api'
+const url = 'http://localhost:3006/api'
 
 
 

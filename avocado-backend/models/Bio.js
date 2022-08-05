@@ -44,7 +44,7 @@ Bio.index = function (req, res) {
         res.json({
             status: "success",
             message: "Got Bio Successfully!",
-            data: bio
+            data: bio.map(el => helpers.destruct(el._doc))
         });
     });
 };
@@ -69,7 +69,7 @@ Bio.getInfo = function (req, res) {
             res.send(err);
         res.json({
             message: 'Bio Details',
-            data: bio
+            data: helpers.destruct(bio._doc)
         });
     });
 };
@@ -81,6 +81,7 @@ Bio.add = async function (req, res) {
     bio.email = req.body.email;
     bio.password = await bcrypt.hash(req.body.password, 10);
     
+
     //Save and check error
     bio.save(function (err) {
         if (err)
@@ -88,7 +89,7 @@ Bio.add = async function (req, res) {
 
         res.json({
             message: "New Bio Added!",
-            data: bio,
+            data: helpers.destruct(bio._doc),
             accessToken: accessToken,
         });
     });

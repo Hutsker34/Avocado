@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const app = express();
-const port = 3003;
+const port = 3006;
 /**
  * https://medium.com/wesionary-team/create-your-first-rest-api-with-node-js-express-and-mongodb-447fce535385
  * @type {string}
@@ -16,6 +16,7 @@ mongoose.set('useCreateIndex', true);
 
 const apiRoutes = require('./controller/UserController');
 const chatRoutes = require('./controller/ChatController');
+const messageRoutes = require('./controller/MessageController')
 
 mongo.then(() => {
     console.log('connected');
@@ -37,5 +38,5 @@ app.use(express.urlencoded({extended: true}));
 
 app.use('/api', apiRoutes);
 app.use('/api', chatRoutes);
-
+app.use('/api', messageRoutes);
 app.listen(port);

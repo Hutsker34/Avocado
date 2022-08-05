@@ -2,21 +2,17 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const helpers = require('../helpers.js')
-const ChatUser = require('./ChatUser.js')
+const Chat = require('./Chat.js')
 
 
 
 //schema
-const chatSchema = mongoose.Schema({
-    messages: {
-        type: [String],
-        default: []
-    },
-    sender_id: {
+const messageSchema = mongoose.Schema({
+    text: {
         type: String,
         required: true
     },
-    receiver_id: {
+    sender_id: {
         type: String,
         required: true
     },
@@ -24,61 +20,53 @@ const chatSchema = mongoose.Schema({
         type: Date,
         default: Date.now
     }
+
 });
 
-// Export Chat Model
-const Chat = mongoose.model('chat', chatSchema);
+// Export Message Model
+const Message = mongoose.model('message', messageSchema);
 
-Chat.get = function (callback, limit) {
-    Chat.find(callback).limit(limit);
+Message.get = function (callback, limit) {
+    Message.find(callback).limit(limit);
 };
 
-Chat.add = async function (req, res) {
-    const chat = new Chat();
-    chat.sender_id = req.body.sender_id
-    chat.receiver_id = req.body.receiver_id
+Message.add = async function (req, res) {
+    const message = new Message();
+    const dialogueId = req.body.dialogue_id
+    message.sender_id = req.body.sender_id
+    message.text = req.body.text
+    message.save(function (err) {
+        if (err)
+            return res.json(err);
 
-    Chat.find({
-        $and: [{ 'receiver_id': req.body.receiver_id }, { 'sender_id': req.body.sender_id }]
-    }, function (err, data) {
-        console.log(err, data)
-        if (err) {
-            return res.json({
-                status: "error",
-                message: err
-            });
-        }
-        if (data.length > 0) {
-            console.log(data)
-            return res.json({
-                status: "success",
-                data: data[0]
-            })
-        } else {
+        Chat.findById(dialogueId, function (err, chat) {
+            if (err)
+                return res.send(err);
+            chat.messages = [...chat.messages, message._id]
             chat.save(function (err) {
                 if (err)
                     return res.json(err);
-
                 res.json({
-                    message: "New Chat Added!",
-                    data: chat,
+                    message: "New Message Added!",
+                    data: message,
 
                 });
-            });
-        }
-    })
+            })
+        });
+    });
 };
 
-Chat.getById = function (req, res) {
+
+Message.getById = function (req, res) {
     console.log(req.params)
     // https://mongoosejs.com/docs/api.html#model_Model.findById
-    Chat.findById(req.params.id, function (err, chat) {
-        console.log(err, chat)
+    Message.findById(req.params.id, function (err, message) {
+        console.log(err, message)
         if (err)
             return res.send(err);
         res.json({
             message: 'Bio Details',
-            data: chat
+            data: message
         });
     });
 };
@@ -109,5 +97,11 @@ Chat.index = function (req, res) {
     });
 };
 
+Message.getUsersByIds = function (ids) {
+    return Message
+        .find({ '_id': { $in: ids } }).then((it) => {
+            return it
+        })
+};
 
-module.exports = Chat;
+module.exports = Message;

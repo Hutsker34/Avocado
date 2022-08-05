@@ -9,7 +9,7 @@ import axios from 'axios'
 import {getToken} from '../../helpers.js'
 import router from '../../router'
 
-const url = 'http://localhost:3003/api'
+const url = 'http://localhost:3006/api'
 
 export default {
     components: {
@@ -38,7 +38,9 @@ export default {
                ({data})=>{
                     router.push({ path: `/messages/${data.data._id}`, replace: true })
                 }
-            )
+            ).catch(()=>{
+                alert('не удалось создать беседу(')
+            })
         }
     },
     mounted() {

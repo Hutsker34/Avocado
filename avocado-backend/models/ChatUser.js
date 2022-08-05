@@ -6,7 +6,7 @@ function ChatUser(){}
 
 
 // Get user subscriptions & public articles (for auth-users only)
-ChatUser.getUserArticles = function (ids) {
+ChatUser.getUsersByIds = function (ids) {
     return Bio
         .find({'_id': {$in: ids}}).then((it) => {
             return it.reduce((total, item) => {
