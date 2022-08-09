@@ -91,7 +91,7 @@ export default {
                    setToken('user', JSON.stringify(data.data))
                }
             ).catch(
-                console.log
+                
             )
         }
     },

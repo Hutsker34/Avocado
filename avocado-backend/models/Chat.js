@@ -49,7 +49,7 @@ Chat.add = async function (req, res) {
             });
         }
         if (data.length > 0) {
-            console.log(data)
+            
             return res.json({
                 status: "success",
                 data: data[0]
@@ -70,7 +70,7 @@ Chat.add = async function (req, res) {
 };
 
 Chat.getById = function (req, res) {
-    console.log(req.params)
+    
     // https://mongoosejs.com/docs/api.html#model_Model.findById
     Chat.findById(req.params.id, function (err, chat) {
         console.log(err, chat)

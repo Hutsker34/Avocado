@@ -62,7 +62,7 @@ Bio.getById = function (req, res) {
 };
 
 Bio.getInfo = function (req, res) {
-    console.log(helpers.getUserId)
+    
     // https://mongoosejs.com/docs/api.html#model_Model.findById
     Bio.findById(helpers.getUserId(req), function (err, bio) {
         if (err)

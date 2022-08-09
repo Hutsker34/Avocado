@@ -5,9 +5,11 @@ const messageController = require('../models/Message');
 
 
 router.route('/message')
-    .get(messageController.index)
+    
     .post(messageController.add);
     
+router.route('/message/:dialogue_id')
+    .get(messageController.index)
 
-    
+
 module.exports = router;

@@ -26,7 +26,7 @@ export default {
                 headers: authHeader(),
             }).then(
                 ({data})=>{
-                    console.log(data.data)
+                    
                     this.chats = data.data
                 }
             )

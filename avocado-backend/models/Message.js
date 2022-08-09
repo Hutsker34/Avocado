@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const helpers = require('../helpers.js')
 const Chat = require('./Chat.js')
-
+const ChatUser = require('./ChatUser.js')
 
 
 //schema
@@ -58,7 +58,7 @@ Message.add = async function (req, res) {
 
 
 Message.getById = function (req, res) {
-    console.log(req.params)
+    
     // https://mongoosejs.com/docs/api.html#model_Model.findById
     Message.findById(req.params.id, function (err, message) {
         console.log(err, message)
@@ -71,33 +71,24 @@ Message.getById = function (req, res) {
     });
 };
 
-Chat.index = function (req, res) {
-    const userId = helpers.getUserId(req)
-    Chat.find({
-        'sender_id': userId 
-    }, async function (err, chats) {
+Message.index = function (req, res) {
+    const id = req.params.dialogue_id
+    Chat.findById( id, async function (err, dialogue) {
         if (err)
             return res.json({
                 status: "error",
                 message: err
             });
-        const userData = await ChatUser.getUsersByIds(chats.map((item) => {
-            return item.receiver_id
-        }))
+        const messages = await Message.getByIds(dialogue.messages)
         res.json({
             status: "success",
             message: "Got chat Successfully!",
-            data: chats.map((chat) => {
-                return {
-                    ...chat._doc,
-                    user: userData[chat.receiver_id]
-                }
-            })
+            data: messages
         });
     });
 };
 
-Message.getUsersByIds = function (ids) {
+Message.getByIds = function (ids) {
     return Message
         .find({ '_id': { $in: ids } }).then((it) => {
             return it

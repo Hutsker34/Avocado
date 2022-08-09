@@ -6,7 +6,7 @@
             <img src='../../assets/avatar.png' class='avatar'>
         </div>
         <div v-for="(item, index) in mus" :key = 'index'  class='message__wrap'>
-            <MessageMy :text = 'item'/>
+            <MessageMy :text = 'item.text'/>
         </div>
         <input v-model = 'value' class='input' placeholder='type a message' v-on:keyup.enter = "messageAppend()" />
     </div>
@@ -14,6 +14,8 @@
 <script>
 import axios from 'axios'
 import MessageMy from './MessageMy.vue'
+import {getToken , authHeader} from '../../helpers.js'
+
 
 
 const url = 'http://localhost:3006/api'
@@ -34,10 +36,11 @@ export default {
         messageAppend(){
              axios.post(`${url}/message`,{
                 text: this.value,
-                sender_id: "629636cf3910ee22c0b8eb01",
-                dialogue_id:"62a8c161d0570f49b493a90d"
+                sender_id: getToken('user')._id,
+                dialogue_id: this.$route.params.id
             }).then(
                ({data})=>{
+                    console.log(data)
                    this.mus.push(data.data.text)
                 }
             )
@@ -59,10 +62,12 @@ export default {
                     
                 }
             ),
-        axios.get(`${url}/message`,{
+        axios.get(`${url}/message/${this.$route.params.id}`,{
+            headers: authHeader(),
             }).then(
                 ({data})=>{
-                    console.log(data)
+                   
+                    this.mus = data.data
                 }
             ) 
     }
