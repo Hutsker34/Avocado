@@ -32,3 +32,8 @@ export const authHeader = () => {
       };
   }
 };
+
+export function getCurrentTime(created_at){
+    const time = new Date(created_at)
+    return `${time.getHours()}:${time.getMinutes()}  ${time.getDate()}.${time.getMonth()}`
+}

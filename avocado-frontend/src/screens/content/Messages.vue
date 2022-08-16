@@ -40,8 +40,8 @@ export default {
                 dialogue_id: this.$route.params.id
             }).then(
                ({data})=>{
-                    console.log(data)
-                   this.mus.push(data.data.text)
+                   this.mus.push(data.data)
+                   console.log(this.mus)
                 }
             )
             this.value = ''
@@ -56,6 +56,7 @@ export default {
                     }).then(
                         ({data})=>{
                             this.userName = data.data.name
+                            
                         }
                     )
                    
@@ -66,7 +67,6 @@ export default {
             headers: authHeader(),
             }).then(
                 ({data})=>{
-                   
                     this.mus = data.data
                 }
             ) 

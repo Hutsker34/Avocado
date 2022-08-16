@@ -6,12 +6,14 @@
         </div>
         <div class='posts'>
             <div class='post__ceate--post'>
-                <input placeholder='leave a record...' class='posts__input'>
-                <button class='posts__button'>submit</button>
+                <input v-model = 'value'  placeholder='leave a record...' class='posts__input'>
+                <button @click = 'addPost' class='posts__button'>submit</button>
             </div>
-            <div class='posts__post'>
-                <p class='post__text'>somethink...</p>
-                <img src='https://user-life.com/uploads/posts/2019-04/thumbs/1556566365_variant-pustoi-avatarki.png' class='post__photo'>
+            <div class = 'posts__mus'  >
+                <div class='posts__post' v-for= "(item, index) in mus" :key = 'index'>
+                    <time>{{format(item.created_at)}}</time>
+                    <p class='post__text'>{{item.text}}</p>
+                </div>
             </div>
         </div>
     </div>
@@ -21,12 +23,15 @@
 const url = 'http://localhost:3006/api'
 
 import axios from 'axios'
-import {authHeader} from '../../helpers.js'
+import {getCurrentTime , getToken, authHeader} from '../../helpers.js'
+
 
 export default {
     data(){
         return{
             userName: 'Name',
+            value:  '',
+            mus:  []
         }
     },
     methods: {
@@ -37,12 +42,29 @@ export default {
             }).then(
                 ({data})=>{
                     this.userName = data.data.name
-                   // console.log(self.userName)
+                   
                 }
             )
+        },
+        format(created_at){
+            return getCurrentTime(created_at)
+        },
+        addPost(){
+             axios.post(`${url}/post`,{
+                text: this.value,
+                user_id: getToken('user')._id,
+            }).then(
+               ({data})=>{
+                   this.mus.unshift(data.data)
+                   console.log(data.data)
+                }
+            )
+            this.value = ''
         }
     },
-    mounted() {
+    
+    
+    mounted(){
         this.getUserName()
     }
 }
@@ -93,6 +115,7 @@ export default {
         background: #9BC472;
         padding: 10px;
         text-align: start;
+        margin: 15px 0 0 0 ;
     }
     .post__text{
         margin:5px 0 5px 0;

@@ -3,7 +3,6 @@
             <img src='../../assets/avatar.png' class='avatar'>
             <div class='text-wrap'>
                 <h1 class='name'>{{friend.name}}</h1>
-                <p class='reading'>reading</p>
             </div>
         </div>
 </template>
