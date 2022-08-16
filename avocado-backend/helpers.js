@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const KEY = 'HSJDKVYFJFU'
+import { authHeader } from '../avocado-frontend/src/helpers';
 
 const getUserId = (req) => {
     let token = ''
