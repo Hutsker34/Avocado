@@ -11,7 +11,7 @@
             </div>
             <div class = 'posts__mus'  >
                 <div class='posts__post' v-for= "(item, index) in mus" :key = 'index'>
-                    <time>{{format(item.created_at)}}</time>
+                    <time class='post__time'>{{format(item.created_at)}}</time>
                     <p class='post__text'>{{item.text}}</p>
                 </div>
             </div>
@@ -56,7 +56,6 @@ export default {
             }).then(
                ({data})=>{
                    this.mus.unshift(data.data)
-                   console.log(data.data)
                 }
             )
             this.value = ''
@@ -65,7 +64,15 @@ export default {
     
     
     mounted(){
-        this.getUserName()
+        this.getUserName(),
+
+
+        axios.get(`${url}/post/${getToken('user')._id}`,{
+            }).then(
+                ({data})=>{
+                    this.mus = data.data
+                }
+            )
     }
 }
 </script>
@@ -125,5 +132,9 @@ export default {
         width: 100%;
         
 
+    }
+    .post__time{
+        font-size: 12px;
+        color: #4C5C60;
     }
 </style>
