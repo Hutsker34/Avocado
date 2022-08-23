@@ -5,8 +5,8 @@
             <h1 class='name'>{{userName}}</h1>
             <img src='../../assets/avatar.png' class='avatar'>
         </div>
-        <div v-for="(item, index) in mus" :key = 'index'  class='message__wrap'>
-            <MessageMy :text = 'item.text'/>
+        <div   class='message__wrap'>
+            <MessageMy v-for="(item, index) in mus" :key = 'index' :text = 'item.text'/>
         </div>
         <input v-model = 'value' class='input' placeholder='type a message' v-on:keyup.enter = "messageAppend()" />
     </div>
@@ -41,7 +41,6 @@ export default {
             }).then(
                ({data})=>{
                    this.mus.push(data.data)
-                   console.log(this.mus)
                 }
             )
             this.value = ''
