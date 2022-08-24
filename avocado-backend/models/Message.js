@@ -61,7 +61,6 @@ Message.getById = function (req, res) {
     
     // https://mongoosejs.com/docs/api.html#model_Model.findById
     Message.findById(req.params.id, function (err, message) {
-        console.log(err, message)
         if (err)
             return res.send(err);
         res.json({
@@ -79,7 +78,7 @@ Message.index = function (req, res) {
                 status: "error",
                 message: err
             });
-        const messages = await Message.getByIds(dialogue.messages)
+        const messages = await Message.getByIds(dialogue.messages , req)
         res.json({
             status: "success",
             message: "Got chat Successfully!",
@@ -88,10 +87,11 @@ Message.index = function (req, res) {
     });
 };
 
-Message.getByIds = function (ids) {
+Message.getByIds = function (ids, req) {
+    const userID = helpers.getUserId(req)
     return Message
         .find({ '_id': { $in: ids } }).then((it) => {
-            return it
+            return it.map(el => ({...el._doc , isMine: el._doc.sender_id==userID._id }) ) 
         })
 };
 

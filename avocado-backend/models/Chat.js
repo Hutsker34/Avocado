@@ -39,9 +39,12 @@ Chat.add = async function (req, res) {
     chat.receiver_id = req.body.receiver_id
 
     Chat.find({
-        $and: [{ 'receiver_id': req.body.receiver_id }, { 'sender_id': req.body.sender_id }]
+        $and: [
+            { $or: [ {'receiver_id': req.body.receiver_id }, { 'receiver_id' : req.body.sender_id } ] },
+            { $or: [{'sender_id': req.body.sender_id },{'sender_id': req.body.receiver_id}] }
+        ]
+       
     }, function (err, data) {
-        console.log(err, data)
         if (err) {
             return res.json({
                 status: "error",
@@ -73,7 +76,7 @@ Chat.getById = function (req, res) {
     
     // https://mongoosejs.com/docs/api.html#model_Model.findById
     Chat.findById(req.params.id, function (err, chat) {
-        console.log(err, chat)
+        
         if (err)
             return res.send(err);
         res.json({
@@ -85,24 +88,31 @@ Chat.getById = function (req, res) {
 
 Chat.index = function (req, res) {
     const userId = helpers.getUserId(req)
-    Chat.find({
-        'sender_id': userId 
+    console.log(userId)
+    Chat.find({ 
+        $or: [ { 'sender_id': userId._id }, { 'receiver_id': userId._id }] 
     }, async function (err, chats) {
         if (err)
             return res.json({
                 status: "error",
                 message: err
             });
-        const userData = await ChatUser.getUsersByIds(chats.map((item) => {
-            return item.receiver_id
-        }))
+            const receiver_ids = chats.map((item) => {
+                return item.receiver_id
+            })
+            const sender_ids = chats.map((item) => {
+                return item.sender_id
+            })
+        const userData = await ChatUser.getUsersByIds([...new Set(receiver_ids, sender_ids)])
+        console.log(userData)
         res.json({
             status: "success",
             message: "Got chat Successfully!",
             data: chats.map((chat) => {
+                console.log(chat.receiver_id , userId._id , chat.sender_id , userData[chat.receiver_id == userId._id ? chat.sender_id : chat.receiver_id])
                 return {
                     ...chat._doc,
-                    user: userData[chat.receiver_id]
+                    user: userData[chat.receiver_id == userId._id ? chat.sender_id : chat.receiver_id]
                 }
             })
         });
