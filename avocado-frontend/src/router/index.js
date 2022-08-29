@@ -27,7 +27,7 @@ const routes = [
             {
                 path: '/chats',
                 name: 'Chats',
-                component: Chats,
+                component: Chats
                 
             },
             {
