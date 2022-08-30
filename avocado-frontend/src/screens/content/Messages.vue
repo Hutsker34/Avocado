@@ -6,15 +6,15 @@
             <img src='../../assets/avatar.png' class='avatar'>
         </div>
         <div   class='message__wrap'>
-            <MessageMy v-for="(item, index) in mus" :key = 'index' :text = 'item.text'/>
+            <MessageCommon v-for="(item, index) in mus" :key = 'index' :message = 'item' />
         </div>
         <input v-model = 'value' class='input' placeholder='type a message' v-on:keyup.enter = "messageAppend()" />
     </div>
 </template>
 <script>
 import axios from 'axios'
-import MessageMy from './MessageMy.vue'
 import {getToken , authHeader} from '../../helpers.js'
+import MessageCommon from './MessageCommon.vue'
 
 
 
@@ -23,7 +23,7 @@ const url = 'http://localhost:3006/api'
 
 export default {
     components: {
-        MessageMy
+        MessageCommon
     },
      data(){
         return{
@@ -41,7 +41,8 @@ export default {
             }).then(
                ({data})=>{
                     console.log(this.mus)
-                   this.mus.push(data.data)
+                   this.mus.push({...data.data , isMine: true})
+                   console.log(data.data)
                 }
             )
             this.value = ''

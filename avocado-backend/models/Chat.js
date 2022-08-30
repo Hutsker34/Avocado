@@ -103,8 +103,7 @@ Chat.index = function (req, res) {
             const sender_ids = chats.map((item) => {
                 return item.sender_id
             })
-        const userData = await ChatUser.getUsersByIds([...new Set(receiver_ids, sender_ids)])
-        console.log(userData)
+        const userData = await ChatUser.getUsersByIds([...new Set([...receiver_ids, ...sender_ids])])
         res.json({
             status: "success",
             message: "Got chat Successfully!",

@@ -1,14 +1,24 @@
 <template>
-    <div class='messageFriend'>
-        <p class='text'>{{text}}</p>
-    </div>
+     
+        <messageMy v-if='message.isMine' :text = 'message.text'/>
+    
+    
+        <messageFriend v-else :text = 'message.text'/>
+    
 </template>
 <script>
+
+import MessageMy from './MessageMy.vue'
+import MessageFriend from './MessageFriend.vue'
+
 export default {
-    name: "MessageFriend",
+    components: {
+        MessageMy,
+        MessageFriend
+    },
+    name: "MessageCommon",
     props: {
-        text: String,
-        MessageFriend: Object
+       message: Object
     },
     data(){
         return{
@@ -23,17 +33,17 @@ export default {
 }
 </script>
 <style scoped>
-    .messageFriend{
+    .messageMy{
         min-width:150px;
         min-height:25px;
-        background: #CBF6DB;
+        background: #9BC472;
         border: none;
         border-radius: 13px;
-        margin: 0 0 15px 15px;
+        margin: 0 15px 15px 0;
         font-size: 14px;
         padding: 3px 0 3px 10px;
         display: flex;
-        align-self: flex-start;
+
     }
     .text{
         margin: 4px 0 0 10px ;

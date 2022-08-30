@@ -35,6 +35,7 @@ Bio.get = function (callback, limit) {
 };
 
 Bio.index = function (req, res) {
+    const userId = helpers.getUserId(req)._id
     Bio.get(function (err, bio) {
         if (err)
             res.json({
@@ -44,7 +45,7 @@ Bio.index = function (req, res) {
         res.json({
             status: "success",
             message: "Got Bio Successfully!",
-            data: bio.map(el => helpers.destruct(el._doc))
+            data: bio.filter(el => el._id.toString() !== userId).map(el => helpers.destruct(el._doc))
         });
     });
 };
