@@ -35,5 +35,5 @@ export const authHeader = () => {
 
 export function getCurrentTime(created_at){
     const time = new Date(created_at)
-    return `${time.getHours()}:${time.getMinutes() < 10 ?  `0${time.getMinutes()}` : time.getMinutes()}  ${time.getDate() < 10 ?  `0${time.getDate()}` : time.getDate()}.${time.getMonth() < 10 ?  `0${time.getMonth()}` : time.getMonth()}`
+    return `${time.getHours()}:${time.getMinutes() < 10 ?  `0${time.getMinutes()}` : time.getMinutes()}  ${time.getDate() < 10 ?  `0${time.getDate()}` : time.getDate()}.${time.getMonth()+1 < 10 ?  `0${time.getMonth()+1}` : time.getMonth()+1}`
 }

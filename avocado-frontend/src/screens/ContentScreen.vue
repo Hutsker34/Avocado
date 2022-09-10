@@ -1,7 +1,13 @@
 <template>
     <div class='site'>
         <header class='site__header'>
-            <img class='header__logo' src='../assets/logo.png'>
+            <div class='header__cpntent'>
+                <img class='header__logo' src='../assets/logo.png'>
+                <div class='header__user--wrap'>
+                    <img src='../assets/avatar.png' class='header__user--avatar'>
+                    <div class='header__user'>{{userName}}</div>
+                </div>
+            </div>
         </header>
         <div class='site__wrap'>
             <article class='site__content'>
@@ -17,8 +23,34 @@
     
 </template>
 <script>
+const url = 'http://localhost:3006/api'
+
+import axios from 'axios'
+import { authHeader} from '../helpers.js'
+
 export default {
-    name: 'ContentScreen'
+    name: 'ContentScreen',
+    data(){
+        return {
+            userName: 'Name',
+        }
+    },
+    methods:{
+        getUserName(){
+            //const self = this
+            axios.get(`${url}/userInfo`,{
+                headers: authHeader(),
+            }).then(
+                ({data})=>{
+                    this.userName = data.data.name
+                   
+                }
+            )
+        },
+    },
+    mounted(){
+        this.getUserName()
+    }
 }
 </script>
 <style scoped>
@@ -61,10 +93,29 @@ export default {
         width: 100%;
         margin: 0 auto;
         display: flex;
-        justify-content: flex-start;
+        justify-content: space-around;
+        
+    }
+    .header__cpntent{
+        width: 34%;
+        display: flex;
+        justify-content: space-between;
+        margin: 0 30px 0 0;
     }
     .header__logo{
-        margin: 10px 0 10px 470px;
+        margin: 10px 0px 10px 0px;
         height:40px;
     }
+    .header__user{
+        margin: 20px 0px 10px 0px;
+    }
+    .header__user--wrap{
+        display: flex;
+    }
+    .header__user--avatar{
+        margin: 10px 10px 0 0;
+        width: auto;
+        height: 35px;
+    }
+
 </style>
