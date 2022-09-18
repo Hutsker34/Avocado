@@ -40,9 +40,9 @@ export default {
                 dialogue_id: this.$route.params.id
             }).then(
                ({data})=>{
-                    console.log(this.mus)
+                    
                    this.mus.push({...data.data , isMine: true})
-                   console.log(data.data)
+                   
                 }
             )
             this.value = ''

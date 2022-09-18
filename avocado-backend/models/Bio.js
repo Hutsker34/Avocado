@@ -116,7 +116,7 @@ Bio.photoUpdate = function (req, res) {
   Bio.findById(req.params.bio_id, function (err, bio) {
     if (err) res.send(err);
     //console.log(req);
-    console.log(req.file)
+    console.log('file', req.file)
     const myFile = req.files.file;
     myFile.mv(`${__dirname}/public/${myFile.name}`, function (err) {
       if (err) {

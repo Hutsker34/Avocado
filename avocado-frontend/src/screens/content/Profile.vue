@@ -2,13 +2,30 @@
   <div class="profile">
     <div class="user__info">
       <img :src="userImg" class="user__avatar" />
-      <h1 class="user__name">{{ userName }}</h1>
-      <input
-        type="file"
-        accept="image/*"
-        @change="uploadImage($event)"
-        id="file-input"
-      />
+      <div class="user__info--wrap">
+        <h1 class="user__name">{{ userName }}</h1>
+        <div class="wrap__input">
+          <label class="input__label">выбирете фото профиля</label>
+          <form @submit.prevent="uploadImage">
+            <div class="form-group">
+              <input type="file" name="imagesArray" @change="onFileChange" />
+            </div>
+            <div class="form-group">
+              <button class="btn btn-success">Submit</button>
+            </div>
+          </form>
+
+          <!-- <input
+            placeholder='изменить фото профиля'
+            class='user__info--btn'
+            type="file"
+            accept="image/*"
+            @change="uploadImage($event)"
+            id="file-input"
+          />
+          -->
+        </div>
+      </div>
     </div>
     <div class="posts">
       <div class="post__ceate--post">
@@ -41,6 +58,7 @@ export default {
       value: "",
       mus: [],
       userImg: "https://pomogaetsrazu.ru/images/offers/969532582.jpg",
+      selectedFile: "",
     };
   },
   methods: {
@@ -68,21 +86,37 @@ export default {
         });
       this.value = "";
     },
+    onFileChange(e) {
+      // const formData = new FormData();
+      const selectedFile = e.target.files[0]; // accessing file
+      this.selectedFile = selectedFile;
+      this.progress = 0;
+      this.userImg = URL.createObjectURL(e.target.files[0]);
+      // formData.append("file", this.selectedFile);
+    },
 
     uploadImage(event) {
       console.log(event);
-      this.userImg = URL.createObjectURL(event.target.files[0])
-      const selectedFile = event.target.files[0];
       const formData = new FormData();
-      formData.append("file", selectedFile);  // appending file
+      formData.append("file", this.selectedFile); // appending file
 
-     // sending file to the backend
+      // sending file to the backend
       axios
-        .patch(`${url}/bio/${getToken("user")._id}`, formData)
-        .then(res => {
+        .post("http://localhost:4500/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
           console.log(res);
         })
-        .catch(err => {
+        .catch((err) => {
+          console.log(err);
+        });
+      axios
+        .post(`${url}/bio/${getToken("user")._id}`, formData)
+        .then()
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -153,5 +187,35 @@ export default {
 .post__time {
   font-size: 12px;
   color: #4c5c60;
+}
+.user__info--btn {
+  margin: 5px 0 0 10px;
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.user__info--wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+.wrap__input {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  position: relative;
+  background: #7fae50;
+  border-radius: 7px;
+  margin: 0 0 0 10px;
+}
+.input__label {
+  font-size: 13px;
+  padding: 2px 10px;
+}
+.wrap__input:hover {
+  background: #6c9741;
 }
 </style>

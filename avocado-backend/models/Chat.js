@@ -88,7 +88,7 @@ Chat.getById = function (req, res) {
 
 Chat.index = function (req, res) {
     const userId = helpers.getUserId(req)
-    console.log(userId)
+    
     Chat.find({ 
         $or: [ { 'sender_id': userId._id }, { 'receiver_id': userId._id }] 
     }, async function (err, chats) {
@@ -108,7 +108,7 @@ Chat.index = function (req, res) {
             status: "success",
             message: "Got chat Successfully!",
             data: chats.map((chat) => {
-                console.log(chat.receiver_id , userId._id , chat.sender_id , userData[chat.receiver_id == userId._id ? chat.sender_id : chat.receiver_id])
+                
                 return {
                     ...chat._doc,
                     user: userData[chat.receiver_id == userId._id ? chat.sender_id : chat.receiver_id]
