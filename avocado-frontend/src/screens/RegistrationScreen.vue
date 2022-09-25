@@ -36,8 +36,10 @@
              <router-link class='site__link' to="/">signIn</router-link>
              <button  type="submit"  class='site__button'>create an account</button>
              </div>
+             
         </Form>
     </div>
+    
 </template>
 <script>
 import { Field, Form, ErrorMessage} from 'vee-validate';
