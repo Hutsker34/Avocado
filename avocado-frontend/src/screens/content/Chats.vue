@@ -34,6 +34,7 @@ export default {
         goToChat(_id){
             axios.get(`${url}/chat/:id`,{
             }).then(
+                console.log(_id)
                 router.push({ path: `/messages/${_id}`, replace: true })
             )
         }
