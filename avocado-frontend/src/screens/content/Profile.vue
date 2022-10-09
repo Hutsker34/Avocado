@@ -96,31 +96,16 @@ export default {
       // formData.append("file", this.selectedFile);
     },
 
-    uploadImage(event) {
-      console.log(event);
+    uploadImage() {
       const formData = new FormData();
       formData.append("file", this.selectedFile); // appending file
 
-      // sending file to the backend
-      axios
-        .post("http://localhost:4500/upload", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      axios
-        .post(`${url}/bio/${getToken("user")._id}`, formData)
-        .then()
-        .catch((err) => {
-          console.log(err);
-        });
-    },
+      fetch(`http://localhost:3006/api/bio/${getToken("user")._id}`, {
+        body: formData,
+        method: "PATCH",
+      });
+      },
+    
   },
 
   mounted() {

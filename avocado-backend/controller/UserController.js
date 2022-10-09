@@ -4,8 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const helpers = require('../helpers.js');
 const Bio = require('../models/Bio');
-const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
+
 
 
 //set default API response
@@ -30,7 +29,7 @@ router.route('/userInfo')
 
 router.route('/bio/:bio_id')
     .get(bioController.getById)
-    .patch(upload.single('avatar'),bioController.photoUpdate)
+    .patch(bioController.photoUpdate)
     .put(bioController.update)
     .delete(bioController.delete);
 
