@@ -6,7 +6,7 @@
         <h1 class="user__name">{{ userName }}</h1>
         <div class="wrap__input">
           <label class="input__label">выбирете фото профиля</label>
-          <form @submit.prevent="uploadImage">
+          <form class='wrap__form' @submit.prevent="uploadImage">
             <div class="form-group">
               <input type="file" name="imagesArray" @change="onFileChange" />
             </div>
@@ -203,5 +203,11 @@ export default {
 }
 .wrap__input:hover {
   background: #6c9741;
+}
+.wrap__form{
+  padding: 10px;
+}
+.btn-success{
+  
 }
 </style>
