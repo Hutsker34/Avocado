@@ -21,6 +21,7 @@ const apiRoutes = require("./controller/UserController");
 const chatRoutes = require("./controller/ChatController");
 const messageRoutes = require("./controller/MessageController");
 const postRoutes = require("./controller/PostController");
+const photoRoutes = require("./controller/PhotoController");
 
 mongo.then(
   () => {
@@ -38,12 +39,19 @@ else console.log("DB Connected Successfully");
 
 app.use(bodyParser.json());
 
-app.use(formidable());
-app.use(cors());
+//app.use(formidable());
+const corsOptions = {
+  origin: ["http://localhost:8080"],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
 //app.use(express.urlencoded({ extended: true }));
 
 
 app.use("/api", apiRoutes);
+app.use("/api", photoRoutes);
 app.use("/api", chatRoutes);
 app.use("/api", messageRoutes);
 app.use("/api", postRoutes);

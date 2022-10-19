@@ -7,6 +7,7 @@ import Chats from '../screens/content/Chats'
 import Friends from '../screens/content/Friends'
 import Profile from '../screens/content/Profile'
 import Messages from '../screens/content/Messages'
+import Sandbox from '../screens/content/Sandbox'
 
 const routes = [
     {
@@ -39,6 +40,11 @@ const routes = [
                 path: '/profile',
                 name: 'profile',
                 component: Profile
+            },
+            {
+                path: '/sandbox',
+                name: 'Sandbox',
+                component: Sandbox
             },
             {
                 path: '/messages/:id',

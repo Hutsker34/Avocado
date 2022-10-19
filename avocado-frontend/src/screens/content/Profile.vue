@@ -7,12 +7,8 @@
         <div class="wrap__input">
           <label class="input__label">выбирете фото профиля</label>
           <form class='wrap__form' @submit.prevent="uploadImage">
-            <div class="form-group">
-              <input type="file" name="imagesArray" @change="onFileChange" />
-            </div>
-            <div class="form-group">
+              <input class='form__input'  type="file" name="imagesArray" @change="onFileChange" />
               <button class="btn btn-success">Submit</button>
-            </div>
           </form>
           
 
@@ -201,13 +197,21 @@ export default {
   font-size: 13px;
   padding: 2px 10px;
 }
-.wrap__input:hover {
-  background: #6c9741;
-}
+
 .wrap__form{
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 .btn-success{
   
+}
+.form__input{
+  margin-top: 10px;
+  
+}
+.btn{
+  margin-top: 10px;
 }
 </style>

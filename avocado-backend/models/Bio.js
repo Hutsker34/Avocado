@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const helpers = require("../helpers.js");
+const fs = require("fs")
+const path = require("path")
 
 
 //schema
@@ -112,15 +114,58 @@ Bio.update = function (req, res) {
     });
   });
 };
-Bio.photoUpdate = function (req, res) {
-  console.log(req.files);
-  res.json({ mesg: "OK!" });
+Bio.photoUpdate = async function (req, res) {
+  console.log(req.files.files);
+  const files = req.files
+  if (!files.files.length) {
+    //Single file
+  
+    const file = files.files;
+  
+    // checks if the file is valid
+    const isValid = true;
+  
+    // creates a valid name by removing spaces
+    const fileName = encodeURIComponent(file.name.replace(/\s/g, "-"));
+    const uploadFolder = path.join(__dirname, "public", "files");
+    if (!isValid) {
+      // throes error if file isn't valid
+      return res.status(400).json({
+        status: "Fail",
+        message: "The file type is not a valid type",
+      });
+    }
+    try {
+      // renames the file in the directory
+      fs.renameSync(file.path, path.join(uploadFolder, fileName));
+    } catch (error) {
+      console.log(error);
+    }
+  
+    try {
+      // stores the fileName in the database
+      const newFile = await File.create({
+        name: `files/${fileName}`,
+      });
+      return res.status(200).json({
+        status: "success",
+        message: "File created successfully!!",
+      });
+    } catch (error) {
+      res.json({
+        error,
+      });
+    }
+  } else {
+    // Multiple files
+  }
+  
   // Bio.findById(req.params.bio_id, function (err, bio) {
   //   if (err) res.send(err);
   //   //console.log(req);
   //   console.log('file', req.file)
-  //   const myFile = req.files.file;
-  //   myFile.mv(`${__dirname}/public/${myFile.name}`, function (err) {
+  //   const files = req.files.file;
+  //   files.mv(`${__dirname}/public/${files.name}`, function (err) {
   //     if (err) {
   //       console.log(err);
   //       return res.status(500).send({ msg: "Error occured" });
