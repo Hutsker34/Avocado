@@ -123,11 +123,18 @@ Bio.photoUpdate = async function (req, res) {
     const file = files.files;
   
     // checks if the file is valid
-    const isValid = true;
+    const isValid = (file) => {
+      const type = file.type.split("/").pop();
+      const validTypes = ["jpg", "jpeg", "png", "pdf"];
+      if (validTypes.indexOf(type) === -1) {
+        return false;
+      }
+      return true;
+    };
   
     // creates a valid name by removing spaces
     const fileName = encodeURIComponent(file.name.replace(/\s/g, "-"));
-    const uploadFolder = path.join(__dirname, "public", "files");
+    const uploadFolder = path.join(__dirname, "../../avocado-frontend/src/assets");
     if (!isValid) {
       // throes error if file isn't valid
       return res.status(400).json({
