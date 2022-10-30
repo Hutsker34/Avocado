@@ -34,13 +34,13 @@ export default {
     },
     methods: {
         messageAppend(){
+             
              axios.post(`${url}/message`,{
                 text: this.value,
                 sender_id: getToken('user')._id,
                 dialogue_id: this.$route.params.id
             }).then(
                ({data})=>{
-                    
                    this.mus.push({...data.data , isMine: true})
                    
                 }
@@ -69,6 +69,7 @@ export default {
             }).then(
                 ({data})=>{
                     this.mus = data.data
+                    console.log(data)
                 }
             ) 
     }

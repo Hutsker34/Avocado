@@ -4,7 +4,7 @@ const formidableMiddleware = require('express-formidable');
 const bioController = require('../models/Bio');
 
 
-router.route('/photo')
+router.route('/photo/:bio_id')
     .post(formidableMiddleware(),bioController.photoUpdate);
     
 
