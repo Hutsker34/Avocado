@@ -1,7 +1,7 @@
 <template >
     <div class='messages'>
         <div class='friend__profile'>
-            <button class='back'> ⇽ back </button>
+            <button @click = 'goBack' class='back'> ⇽ back </button>
             <h1 class='name'>{{userName}}</h1>
             <img src='../../assets/avatar.png' class='avatar'>
         </div>
@@ -15,7 +15,7 @@
 import axios from 'axios'
 import {getToken , authHeader} from '../../helpers.js'
 import MessageCommon from './MessageCommon.vue'
-
+import router from '../../router'
 
 
 const url = 'http://localhost:3006/api'
@@ -33,8 +33,12 @@ export default {
         }
     },
     methods: {
+        goBack(){
+            
+            return router.go(-1)
+            
+        },
         messageAppend(){
-             
              axios.post(`${url}/message`,{
                 text: this.value,
                 sender_id: getToken('user')._id,
@@ -49,15 +53,11 @@ export default {
         }
     },
     mounted() {
-       axios.get(`${url}/chat/${this.$route.params.id}`,{
-            }).then(
+       axios.get(`${url}/chat/${this.$route.params.id}`).then(
                 ({data})=>{
-                    axios.get(`${url}/bio/${data.data.receiver_id}`, {
-
-                    }).then(
+                    axios.get(`${url}/bio/${data.data.receiver_id}`).then(
                         ({data})=>{
                             this.userName = data.data.name
-                            
                         }
                     )
                    
@@ -69,7 +69,6 @@ export default {
             }).then(
                 ({data})=>{
                     this.mus = data.data
-                    console.log(data)
                 }
             ) 
     }
@@ -85,7 +84,7 @@ export default {
     .back{
         background: none;
         border: none;
-        margin: 20px;
+        
     }
     .back:hover{
         color: grey;
@@ -102,19 +101,17 @@ export default {
         width: 100%;
         height: 70px;
         border-bottom: solid 1px grey;
-        display: inline-flex;
+        display: flex;
         flex-wrap: wrap;
-        align-content: center;
+        align-items: center;
         justify-content: space-around
     }
     .name{
-        margin: 0 auto;
         font-size: 16px;
-        margin-top: 15px;
+        margin: 0 60px;
     }
     .avatar{
         width: 50px;
-        margin: 5px 20px 5px 0;
     }
     .message__wrap{
         display: inline-flex;

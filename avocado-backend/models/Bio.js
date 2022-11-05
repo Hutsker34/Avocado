@@ -138,7 +138,7 @@ Bio.photoUpdate = async function (req, res) {
       __dirname,
       "../../avocado-frontend/src/assets"
     );
-    console.log(1)
+    
     if (!isValid) {
       // throes error if file isn't valid
       return res.status(400).json({
@@ -146,24 +146,16 @@ Bio.photoUpdate = async function (req, res) {
         message: "The file type is not a valid type",
       });
     }
-    console.log(2)
     try {
       // renames the file in the directory
       fs.renameSync(file.path, path.join(uploadFolder, fileName));
     } catch (error) {
       console.log(error);
     }
-    console.log(3)
     try {
-      // stores the fileName in the database
-      // const newFile = await File.create({
-      //   name: `files/${fileName}`,
-      // });
-      console.log(123)
+      
       Bio.findById(req.params.bio_id, function (err, bio) {
-        console.log(bio)
         if (err) res.send(err);
-        //console.log(req);
         bio.avatar = fileName;
         //save and check errors
         bio.save(function (err) {
@@ -174,10 +166,7 @@ Bio.photoUpdate = async function (req, res) {
           });
         });
       });
-      // return res.status(200).json({
-      //   status: "success",
-      //   message: "File created successfully!!",
-      // });
+     
     } catch (error) {
       res.json({
         error,

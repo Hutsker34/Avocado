@@ -1,12 +1,18 @@
 <template>
         <div class='message'>
-            <img src='../../assets/avatar.png' class='avatar'>
+            <img :src = 'chooseAvo()' class='avatar'>
             <div class='text-wrap'>
                 <h1 class='name'>{{friend.name}}</h1>
             </div>
         </div>
 </template>
 <script>
+const url = 'http://localhost:3006/api'
+
+import axios from 'axios'
+import { authHeader} from '../../helpers.js'
+import forestMan from "@/assets/forestMan.png";
+
 export default {
     name: "Friend",
     props: {
@@ -14,7 +20,24 @@ export default {
     },
     data(){
         return{
-            username: 'name'
+            username: 'name',
+            avatar: forestMan,
+        }
+    },
+    methods: {
+        getUserName(){
+            //const self = this
+            axios.get(`${url}/userInfo`,{
+                headers: authHeader(),
+            }).then(
+                ({data})=>{
+                    console.log('ava',data.data.avatar);
+                    this.avatar = require(`@/assets/${data.data.avatar}`)
+                }
+            )
+        },
+        chooseAvo(){
+            return this.friend.avatar ? require(`@/assets/${this.friend.avatar}`) : this.avatar;
         }
     },
     

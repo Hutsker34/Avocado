@@ -1,7 +1,7 @@
 <template>
   <div class="profile">
     <div class="user__info">
-      <img :src="userImg" class="user__avatar" />
+      <img :src="avatar" class="user__avatar" />
       <div class="user__info--wrap">
         <h1 class="user__name">{{ userName }}</h1>
         <div class="center">
@@ -10,65 +10,58 @@
             :crop="false"
             @imageuploaded="imageuploaded"
             :max-file-size="5242880"
-            :url='patchImg()' >
+            :url="patchImg()"
+          >
           </vue-core-image-upload>
         </div>
-        <!--
-        <div class="wrap__input">
-          <label class="input__label">выбирете фото профиля</label>
-          <form class='wrap__form' @submit.prevent="uploadImage">
-              <input class='form__input'  type="file" name="imagesArray" @change="onFileChange" />
-              <button class="btn btn-success">Submit</button>
-          </form>
-          
-        !-->
-          <!-- <input
-            placeholder='изменить фото профиля'
-            class='user__info--btn'
-            type="file"
-            accept="image/*"
-            @change="uploadImage($event)"
-            id="file-input"
-          />
-          -->
-        </div>
       </div>
     </div>
-    <div class="posts">
-      <div class="post__ceate--post">
-        <input
+  </div>
+  <div class="posts">
+    <Form class="post__ceate--post" @submit="addPost">
+      <div class="form__wrap">
+        <Field
+          name="post"
+          rules="required"
           v-model="value"
-          placeholder="leave a record..."
           class="posts__input"
+          placeholder="leave a record..."
+          type="text"
         />
-        <button @click="addPost" class="posts__button">submit</button>
+        <button class="posts__button">submit</button>
       </div>
-      <div class="posts__mus">
-        <div class="posts__post" v-for="(item, index) in mus" :key="index">
-          <time class="post__time">{{ format(item.created_at) }}</time>
-          <p class="post__text">{{ item.text }}</p>
-        </div>
+      <ErrorMessage class="site__loginErrorMess" name="post" />
+    </Form>
+
+    <div class="posts__mus">
+      <div class="posts__post" v-for="(item, index) in mus" :key="index">
+        <time class="post__time">{{ format(item.created_at) }}</time>
+        <p class="post__text">{{ item.text }}</p>
       </div>
     </div>
-  
+  </div>
 </template>
 <script>
 const url = "http://localhost:3006/api";
-import VueCoreImageUpload from 'vue-core-image-upload'
+import { Field, Form, ErrorMessage } from "vee-validate";
+import VueCoreImageUpload from "vue-core-image-upload";
 import axios from "axios";
 import { getCurrentTime, getToken, authHeader } from "../../helpers.js";
-import forestMan from '../../assets/forestMan.png';
+import forestMan from "@/assets/forestMan.png";
 
 export default {
   components: {
-    'vue-core-image-upload': VueCoreImageUpload,
+    "vue-core-image-upload": VueCoreImageUpload,
+    Field,
+    Form,
+    ErrorMessage,
   },
   data() {
     return {
       userName: "Name",
       value: "",
       mus: [],
-      userImg: forestMan,
+      avatar: forestMan,
       selectedFile: "",
     };
   },
@@ -81,29 +74,29 @@ export default {
         })
         .then(({ data }) => {
           this.userName = data.data.name;
-          this.userImg = require(`../../assets/${data.data.avatar}`);
+          if (data.data.avatar) {
+            this.avatar = require(`@/assets/${data.data.avatar}`);
+          }
         });
     },
     imageuploaded(res) {
-      if (res.errcode == 0) {
-        this.src = res.data.src;
-      }
+      this.avatar =  require(`@/assets/${res.data.avatar}`);
     },
-    patchImg(){
-        return `http://localhost:3006/api/photo/${getToken("user")._id}`
+    patchImg() {
+      return `http://localhost:3006/api/photo/${getToken("user")._id}`;
     },
     format(created_at) {
       return getCurrentTime(created_at);
     },
-    addPost() {
+    addPost(_values, { resetForm }) {
       axios
         .post(`${url}/post`, {
           text: this.value,
           user_id: getToken("user")._id,
         })
         .then(({ data }) => {
+          resetForm();
           this.mus.unshift(data.data);
-          console.log(data)
         });
       this.value = "";
     },
@@ -112,7 +105,7 @@ export default {
       const selectedFile = e.target.files[0]; // accessing file
       this.selectedFile = selectedFile;
       this.progress = 0;
-      this.userImg = URL.createObjectURL(e.target.files[0]);
+      this.avatar = URL.createObjectURL(e.target.files[0]);
       // formData.append("file", this.selectedFile);
     },
 
@@ -123,30 +116,27 @@ export default {
         body: formData,
         method: "PATCH",
       });
-      },
-    
+    },
   },
 
   mounted() {
-    this.getUserName(),
+    this.getUserName();
       axios.get(`${url}/post/${getToken("user")._id}`, {}).then(({ data }) => {
         this.mus = data.data;
-        console.log(this.mus)
       });
-      
   },
 };
 </script>
 <style scoped>
-.btn-primary{
-    background: #7fae50;
-    border-radius: 20px;
-    padding: 10px 15px;
-    box-shadow : 0 0 3px rgba(0,0,0,0.5);
+.btn-primary {
+  background: #7fae50;
+  border-radius: 20px;
+  padding: 10px 15px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
 }
-.center{
-    max-width: 150px;
-    margin: 0 0 0 10px;
+.center {
+  max-width: 150px;
+  margin: 0 0 0 10px;
 }
 .profile {
   padding: 30px;
@@ -155,7 +145,7 @@ export default {
   display: flex;
 }
 .user__avatar {
-  background: #D0D7DF;
+  background: #d0d7df;
   width: 150px;
   height: 200px;
   object-fit: contain;
@@ -166,12 +156,14 @@ export default {
 }
 .post__ceate--post {
   padding: 10px;
-  display: flex;
-  justify-content: space-between;
   margin-top: 30px;
   background: #9bc472;
   border-radius: 5px;
   margin-bottom: 20px;
+}
+.form__wrap {
+  display: flex;
+  justify-content: space-between;
 }
 .posts__input {
   background: #9bc472;
@@ -233,20 +225,18 @@ export default {
   padding: 2px 10px;
 }
 
-.wrap__form{
+.wrap__form {
   padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
-.btn-success{
-  
+.btn-success {
 }
-.form__input{
+.form__input {
   margin-top: 10px;
-  
 }
-.btn{
+.btn {
   margin-top: 10px;
 }
 </style>

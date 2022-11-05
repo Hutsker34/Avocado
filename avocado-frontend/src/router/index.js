@@ -1,4 +1,4 @@
-import { createWebHistory, createRouter } from "vue-router";
+import { createWebHashHistory, createRouter } from "vue-router";
 
 import RegistarationScreen from '../screens/RegistrationScreen'
 import SignInScreen from '../screens/SignInScreen'
@@ -56,7 +56,7 @@ const routes = [
     
 ]
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHashHistory(),
     routes,
 });
 

@@ -36,7 +36,7 @@ export default {
                 receiver_id: _id
             }).then(
                ({data})=>{
-                    router.push({ path: `/messages/${data.data._id}`, replace: true })
+                    router.push({ path: `/messages/${data.data._id}`})
                 }
             ).catch(()=>{
                 alert('не удалось создать беседу(')

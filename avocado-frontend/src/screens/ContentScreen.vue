@@ -4,7 +4,7 @@
             <div class='header__cpntent'>
                 <img class='header__logo' src='../assets/logo.png'>
                 <div class='header__user--wrap'>
-                    <img src='../assets/avatar.png' class='header__user--avatar'>
+                    <img :src = 'avatar' class='header__user--avatar'>
                     <div class='header__user'>{{userName}}</div>
                 </div>
             </div>
@@ -24,15 +24,16 @@
 </template>
 <script>
 const url = 'http://localhost:3006/api'
-
 import axios from 'axios'
 import { authHeader} from '../helpers.js'
+import forestMan from "@/assets/forestMan.png";
 
 export default {
     name: 'ContentScreen',
     data(){
         return {
             userName: 'Name',
+            avatar: forestMan,
         }
     },
     methods:{
@@ -42,9 +43,12 @@ export default {
                 headers: authHeader(),
             }).then(
                 ({data})=>{
-                    this.userName = data.data.name
-                   
-                }
+                    this.userName = data.data.name;
+                    if(data.data.avatar){
+                        this.avatar = require(`../assets/${data.data.avatar}`)
+                    }
+                    
+                }  
             )
         },
     },

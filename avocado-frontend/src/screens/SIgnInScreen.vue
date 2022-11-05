@@ -72,7 +72,7 @@ export default {
                 password,
             }).then(
                 function({data}){
-                    router.push({ path: '/profile', replace: true })
+                    router.push({ path: '/profile'})
                     setToken('accessToken', data.accessToken)
                      setToken('user', JSON.stringify(data.data))
                 }
