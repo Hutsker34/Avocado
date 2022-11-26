@@ -63,6 +63,7 @@ export default {
       mus: [],
       avatar: forestMan,
       selectedFile: "",
+      count: 0
     };
   },
   methods: {
@@ -80,7 +81,8 @@ export default {
         });
     },
     imageuploaded(res) {
-      this.avatar =  require(`@/assets/${res.data.avatar}`);
+      this.avatar = require(`@/assets/${res.data.avatar}`);
+      this.$store.commit('updateAvatar', res.data.avatar);
     },
     patchImg() {
       return `http://localhost:3006/api/photo/${getToken("user")._id}`;
@@ -99,14 +101,6 @@ export default {
           this.mus.unshift(data.data);
         });
       this.value = "";
-    },
-    onFileChange(e) {
-      // const formData = new FormData();
-      const selectedFile = e.target.files[0]; // accessing file
-      this.selectedFile = selectedFile;
-      this.progress = 0;
-      this.avatar = URL.createObjectURL(e.target.files[0]);
-      // formData.append("file", this.selectedFile);
     },
 
     uploadImage() {

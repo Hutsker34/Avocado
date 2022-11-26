@@ -2,9 +2,19 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import { defineRule } from 'vee-validate';
+import store from './store'
 
 
-createApp(App).use(router).mount('#app')
+
+const app = createApp(App)
+
+app.use(store)
+app.use(router)
+app.mount('#app')
+
+//Vue.config.productionTip = false;
+
+
 
 defineRule('email', value => {
     // Field is empty, should pass
