@@ -12,7 +12,7 @@ const url = 'http://localhost:3006/api'
 
 import forestMan from "@/assets/forestMan.png";
 import axios from 'axios'
-import { authHeader} from '../../helpers.js'
+import { authHeader , backLink} from '../../helpers.js'
 
 export default {
   name: "Chat",
@@ -31,13 +31,12 @@ export default {
                 headers: authHeader(),
             }).then(
                 ({data})=>{
-                    console.log('ava',data.data.avatar);
-                    this.avatar = require(`@/assets/${data.data.avatar}`)
+                    this.avatar = `${backLink}${data.data.avatar}`
                 }
             )
         },
         chooseAvo(){
-            return this.chat.avatar ? require(`@/assets/${this.chat.avatar}`) : this.avatar;
+            return this.chat.avatar ? `${backLink}${this.chat.avatar}` : this.avatar;
         }
   },
   mounted() {},

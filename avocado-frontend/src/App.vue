@@ -12,9 +12,13 @@ export default {
   name: 'App',
   components: {
     
+  },
+  mounted() {
+    this.$store.dispatch('getAvo');
   }
 }
 </script>
+  
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Krub:wght@300&family=Montserrat:ital,wght@0,400;1,300&display=swap');

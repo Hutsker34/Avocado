@@ -6,7 +6,7 @@
 <script>
 import Friend from './Friend.vue'
 import axios from 'axios'
-import {getToken,  authHeader} from '../../helpers.js'
+import {getToken,  authHeader } from '../../helpers.js'
 import router from '../../router'
 
 const url = 'http://localhost:3006/api'

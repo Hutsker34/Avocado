@@ -24,7 +24,7 @@
 <script>
 const url = "http://localhost:3006/api";
 import axios from "axios";
-import { authHeader } from "../helpers.js";
+import { authHeader, backLink } from "../helpers.js";
 
 export default {
   name: "ContentScreen",
@@ -46,12 +46,12 @@ export default {
         .get(`${url}/userInfo`, {
           headers: authHeader(),
         })
-        // .then(({ data }) => {
-        //     this.userName = data.data.name;
-        //     if (data.data.avatar) {
-        //     this.avatar = require(`../assets/${data.data.avatar}`);
-        //   }
-        // });
+        .then(({ data }) => {
+            this.userName = data.data.name;
+            if (data.data.avatar) {
+            this.avatar = `${backLink}${data.data.avatar}`;
+          }
+        });
     },
     
   },

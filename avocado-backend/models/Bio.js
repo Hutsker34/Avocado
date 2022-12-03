@@ -69,7 +69,7 @@ Bio.getById = function (req, res) {
 
 Bio.getInfo = function (req, res) {
   // https://mongoosejs.com/docs/api.html#model_Model.findById
-  Bio.findById(helpers.getUserId(req), function (err, bio) {
+  Bio.findById(helpers.getUserId(req)._id, function (err, bio) {
     if (err) res.send(err);
     res.json({
       message: "Bio Details",
@@ -136,7 +136,7 @@ Bio.photoUpdate = async function (req, res) {
     );
     const uploadFolder = path.join(
       __dirname,
-      "../../avocado-frontend/src/assets"
+      "../photos"
     );
     
     if (!isValid) {

@@ -22,7 +22,7 @@
 </template>
 <script>
 import axios from "axios";
-import { getToken, authHeader } from "../../helpers.js";
+import { getToken, authHeader , backLink} from "../../helpers.js";
 import MessageCommon from "./MessageCommon.vue";
 import router from "../../router";
 import forestMan from "@/assets/forestMan.png";
@@ -63,8 +63,8 @@ export default {
     axios.get(`${url}/chat/${this.$route.params.id}`).then(({ data }) => {
       axios.get(`${url}/bio/${data.data.receiver_id}`).then(({ data }) => {
         if (data.data.avatar) {
-            this.avatar = require(`@/assets/${data.data.avatar}`);
-          }
+          this.avatar = `${backLink}${data.data.avatar}`;
+        }
         this.userName = data.data.name;
       });
     }),

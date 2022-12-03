@@ -55,4 +55,5 @@ app.use("/api", photoRoutes);
 app.use("/api", chatRoutes);
 app.use("/api", messageRoutes);
 app.use("/api", postRoutes);
+app.use(express.static('photos'))
 app.listen(port);

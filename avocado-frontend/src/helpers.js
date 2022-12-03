@@ -17,6 +17,8 @@ export function deleteToken(){
     localStorage.removeItem('accessToken')
 }
 
+export const backLink = 'http://localhost:3006/'
+
 export const authHeader = () => {
   const accessToken = localStorage.getItem('accessToken');
   if (accessToken) {

@@ -46,7 +46,7 @@ const url = "http://localhost:3006/api";
 import { Field, Form, ErrorMessage } from "vee-validate";
 import VueCoreImageUpload from "vue-core-image-upload";
 import axios from "axios";
-import { getCurrentTime, getToken, authHeader } from "../../helpers.js";
+import { getCurrentTime, getToken, authHeader , backLink} from "../../helpers.js";
 import forestMan from "@/assets/forestMan.png";
 
 export default {
@@ -76,12 +76,12 @@ export default {
         .then(({ data }) => {
           this.userName = data.data.name;
           if (data.data.avatar) {
-            this.avatar = require(`@/assets/${data.data.avatar}`);
+            this.avatar = `${backLink}${data.data.avatar}`;
           }
         });
     },
     imageuploaded(res) {
-      this.avatar = require(`@/assets/${res.data.avatar}`);
+      this.avatar = `${backLink}${res.data.avatar}`;
       this.$store.commit('updateAvatar', res.data.avatar);
     },
     patchImg() {
