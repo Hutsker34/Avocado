@@ -4,6 +4,9 @@ const jwt = require("jsonwebtoken");
 const helpers = require("../helpers.js");
 const fs = require("fs");
 const path = require("path");
+const getColors = require('get-image-colors')
+
+
 
 //schema
 const bioSchema = mongoose.Schema({
@@ -20,6 +23,10 @@ const bioSchema = mongoose.Schema({
     required: true,
     unique: true,
   },
+  background: {
+    type: String,
+    default: "black",
+  },
   created_at: {
     type: Date,
     default: Date.now,
@@ -28,6 +35,7 @@ const bioSchema = mongoose.Schema({
     type: String,
     default: "",
   },
+  
 });
 bioSchema.index({ email: 1 }, { unique: true });
 
@@ -71,6 +79,10 @@ Bio.getInfo = function (req, res) {
   // https://mongoosejs.com/docs/api.html#model_Model.findById
   Bio.findById(helpers.getUserId(req)._id, function (err, bio) {
     if (err) res.send(err);
+    if (bio == null) return res.status(404).json({
+      status: "Fail",
+      message: "user не найден(",
+    });
     res.json({
       message: "Bio Details",
       data: helpers.destruct(bio._doc),
@@ -84,6 +96,7 @@ Bio.add = async function (req, res) {
   bio.name = req.body.name ? req.body.name : bio.name;
   bio.email = req.body.email;
   bio.password = await bcrypt.hash(req.body.password, 10);
+  bio.background = req.body.background;
 
   //Save and check error
   bio.save(function (err) {
@@ -102,6 +115,8 @@ Bio.update = function (req, res) {
     if (err) res.send(err);
     bio.name = req.body.name ? req.body.name : bio.name;
     bio.email = req.body.email;
+    bio.background = req.body.background;
+    
 
     //save and check errors
     bio.save(function (err) {
@@ -113,13 +128,14 @@ Bio.update = function (req, res) {
     });
   });
 };
+
 Bio.photoUpdate = async function (req, res) {
   const files = req.files;
   if (!files.files.length) {
     //Single file
 
     const file = files.files;
-
+    console.log(file)
     // checks if the file is valid
     const isValid = (file) => {
       const type = file.type.split("/").pop();
@@ -152,29 +168,28 @@ Bio.photoUpdate = async function (req, res) {
     } catch (error) {
       console.log(error);
     }
-    try {
       
       Bio.findById(req.params.bio_id, function (err, bio) {
-        if (err) res.send(err);
+        if (err) return  res.send(err);
         bio.avatar = fileName;
-        //save and check errors
-        bio.save(function (err) {
-          if (err) res.json(err);
-          return res.json({
-            message: "Bio Updated Successfully",
-            data: bio,
-          });
+        
+          getColors(path.join(uploadFolder, fileName)).then(colors => {
+            bio.background = helpers.getContrastYIQ(colors[0].css())
+            bio.save(function (err) {
+              if (err) return res.json(err);
+              return res.json({
+                message: "Bio Updated Successfully",
+                data:  bio,
+              });
+            });
+          }).catch(error => {
+            console.log(error)
+            res.json({
+              error,
+            });
+          })
         });
-      });
-     
-    } catch (error) {
-      res.json({
-        error,
-      });
-    }
-  } else {
-    // Multiple files
-  }
+    } 
 };
 Bio.delete = function (req, res) {
   Bio.deleteOne(

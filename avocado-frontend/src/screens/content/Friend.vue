@@ -10,7 +10,7 @@
 const url = 'http://localhost:3006/api'
 
 import axios from 'axios'
-import { authHeader} from '../../helpers.js'
+import { authHeader, backLink} from '../../helpers.js'
 import forestMan from "@/assets/forestMan.png";
 
 export default {
@@ -31,13 +31,12 @@ export default {
                 headers: authHeader(),
             }).then(
                 ({data})=>{
-                    console.log('ava',data.data.avatar);
-                    this.avatar = require(`@/assets/${data.data.avatar}`)
+                    this.avatar =  `${backLink}${data.data.avatar}`
                 }
             )
         },
         chooseAvo(){
-            return this.friend.avatar ? require(`@/assets/${this.friend.avatar}`) : this.avatar;
+            return this.friend.avatar ?  `${backLink}${this.friend.avatar}` : this.avatar;
         }
     },
     

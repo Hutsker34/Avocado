@@ -8,11 +8,11 @@
   </div>
 </template>
 <script>
-const url = 'http://localhost:3006/api'
+//const url = 'http://localhost:3006/api'
 
 import forestMan from "@/assets/forestMan.png";
-import axios from 'axios'
-import { authHeader , backLink} from '../../helpers.js'
+//import axios from 'axios'
+import {backLink} from '../../helpers.js'
 
 export default {
   name: "Chat",
@@ -21,25 +21,19 @@ export default {
   },
   data() {
     return {
+        username: name,
         avatar: forestMan,
     };
   },
   methods: {
-    getUserName(){
-            //const self = this
-            axios.get(`${url}/userInfo`,{
-                headers: authHeader(),
-            }).then(
-                ({data})=>{
-                    this.avatar = `${backLink}${data.data.avatar}`
-                }
-            )
-        },
+    
         chooseAvo(){
-            return this.chat.avatar ? `${backLink}${this.chat.avatar}` : this.avatar;
+            return this.chat.user.avatar ? `${backLink}${this.chat.user.avatar}` : this.avatar;
         }
   },
-  mounted() {},
+  mounted() {
+    
+  },
 };
 </script>
 <style>
@@ -65,6 +59,8 @@ export default {
 .avatar {
   width: 50px;
   margin: 5px 0 5px 20px;
+  object-fit: contain;
+  height: 50px;
 }
 .text-wrap {
   display: flex;

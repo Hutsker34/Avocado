@@ -76,6 +76,11 @@ export default {
             schema
         }
     },
+    computed: {
+        getChecked() {
+        return this.$store.state.checked
+        }
+    },
     methods: {
         isRequired(value){
             return value ? true : 'This field is required';
@@ -87,22 +92,22 @@ export default {
                 email: login,
                 password: password
             }).then(
-               function({data}){
-                   router.push({ path: '/profile'})
-                   setToken('accessToken', data.accessToken)
-                   setToken('user', JSON.stringify(data.data))
-               }
+            function({data}){
+                router.push({ path: '/profile'})
+                setToken('accessToken', data.accessToken)
+                setToken('user', JSON.stringify(data.data))
+            }
             ).catch(
                 
             )
         }
     },
+    mounted(){
+    },
 }
 </script>
 <style>
-body{
-    background: #CBF6DB;
-}
+
 .site{
     margin-top: 20px;
 }

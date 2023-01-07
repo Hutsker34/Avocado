@@ -62,11 +62,12 @@ export default {
         align-content: center;
     }
     .message:hover{
-        background: #88AD62;
+        background: rgba(255,255,255,0.15);
     }
     .name{
         margin: 10px 0 0 0;
         font-size: 16px;
+        color: #c0cbd7;
     }
     .reading{
         margin: 16px 0 0 0;

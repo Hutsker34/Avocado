@@ -2,6 +2,9 @@ const jwt = require('jsonwebtoken');
 const KEY = 'HSJDKVYFJFU'
 
 
+
+
+
 const getUserId = (req) => {
     let token = ''
     try{
@@ -26,7 +29,19 @@ function transliterate(word){
   }).join("");
 }
 
+function getRGB(result){
+  let substr = result.slice( result.indexOf('(')+1, result.indexOf(')'))
+  return substr.split(',')
+}
+function getContrastYIQ(result){
+  let rgb = getRGB(result)
+  let yiq = ((rgb[0] * 299) + (rgb[1] * 587) + (rgb[2] * 114)) / 1000;
+  return (yiq >= 128) ? 'black' : 'white';
+}
+
+
 exports.getUserId = getUserId
 exports.KEY = KEY
+exports.getContrastYIQ = getContrastYIQ 
 exports.destruct = destruct
 exports.transliterate = transliterate

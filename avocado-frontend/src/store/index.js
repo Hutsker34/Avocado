@@ -1,19 +1,32 @@
 import { createStore } from "vuex";
 import forestMan from "@/assets/forestMan.png";
 import axios from 'axios'
-import { authHeader } from "../helpers.js";
+import { authHeader, backLink } from "../helpers.js";
 
 
 const url = "http://localhost:3006/api";
 const store = createStore({
     state () {
       return {
-        avatar: forestMan
+        avatar: forestMan,
+        checked: false,
+        color: ''
       }
     },
     mutations: {
       updateAvatar(state, payload) {
-        state.avatar = require(`@/assets/${payload}`)
+        if(!payload){
+          state.avatar = forestMan
+        }else{
+          state.avatar = `${backLink}${payload}`;
+        }
+      },
+      updateChecked(state, payload){
+        state.checked = payload
+      },
+      updateColor(state, payload){
+        console.log('store',payload)
+        state.color = payload
       }
     },
     actions: {
@@ -28,7 +41,7 @@ const store = createStore({
             context.commit('updateAvatar',data.data.avatar);
           }
         });
-    }
+      },
     }
 
   })

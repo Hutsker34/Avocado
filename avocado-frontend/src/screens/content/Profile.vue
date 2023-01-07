@@ -66,6 +66,11 @@ export default {
       count: 0
     };
   },
+  computed: {
+    checked() {
+      return this.$store.state.checked
+    },
+  },
   methods: {
     getUserName() {
       //const self = this
@@ -82,6 +87,7 @@ export default {
     },
     imageuploaded(res) {
       this.avatar = `${backLink}${res.data.avatar}`;
+      console.log(res.data)
       this.$store.commit('updateAvatar', res.data.avatar);
     },
     patchImg() {
@@ -102,7 +108,6 @@ export default {
         });
       this.value = "";
     },
-
     uploadImage() {
       const formData = new FormData();
       formData.append("file", this.selectedFile); // appending file
@@ -139,14 +144,17 @@ export default {
   display: flex;
 }
 .user__avatar {
-  background: #d0d7df;
+  background: #dfd0d0;
   width: 150px;
   height: 200px;
-  object-fit: contain;
+  
 }
 .user__name {
   margin-left: 10px;
   font-size: 15px;
+}
+.newYearTheme .user__name {
+  color:white;
 }
 .post__ceate--post {
   padding: 10px;
@@ -224,8 +232,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-}
-.btn-success {
 }
 .form__input {
   margin-top: 10px;

@@ -14,7 +14,6 @@
 <script>
 import VueCoreImageUpload from 'vue-core-image-upload'
 
-
 export default {
   components: {
     'vue-core-image-upload': VueCoreImageUpload,
