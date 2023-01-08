@@ -4,9 +4,8 @@ const jwt = require("jsonwebtoken");
 const helpers = require("../helpers.js");
 const fs = require("fs");
 const path = require("path");
-const getColors = require('get-image-colors')
-
-
+const getColors = require("get-image-colors");
+const sharp = require('sharp');
 
 //schema
 const bioSchema = mongoose.Schema({
@@ -35,7 +34,10 @@ const bioSchema = mongoose.Schema({
     type: String,
     default: "",
   },
-  
+  cutAvatar: {
+    type: String,
+    default: "",
+  },
 });
 bioSchema.index({ email: 1 }, { unique: true });
 
@@ -79,10 +81,11 @@ Bio.getInfo = function (req, res) {
   // https://mongoosejs.com/docs/api.html#model_Model.findById
   Bio.findById(helpers.getUserId(req)._id, function (err, bio) {
     if (err) res.send(err);
-    if (bio == null) return res.status(404).json({
-      status: "Fail",
-      message: "user не найден(",
-    });
+    if (bio == null)
+      return res.status(404).json({
+        status: "Fail",
+        message: "user не найден(",
+      });
     res.json({
       message: "Bio Details",
       data: helpers.destruct(bio._doc),
@@ -116,7 +119,6 @@ Bio.update = function (req, res) {
     bio.name = req.body.name ? req.body.name : bio.name;
     bio.email = req.body.email;
     bio.background = req.body.background;
-    
 
     //save and check errors
     bio.save(function (err) {
@@ -135,7 +137,6 @@ Bio.photoUpdate = async function (req, res) {
     //Single file
 
     const file = files.files;
-    console.log(file)
     // checks if the file is valid
     const isValid = (file) => {
       const type = file.type.split("/").pop();
@@ -150,11 +151,11 @@ Bio.photoUpdate = async function (req, res) {
     const fileName = encodeURIComponent(
       helpers.transliterate(file.name).replace(/\s/g, "-")
     );
-    const uploadFolder = path.join(
-      __dirname,
-      "../photos"
-    );
-    
+    const uploadFolder = path.join(__dirname, "../photos");
+
+    let inputFile  = fileName;
+    let outputFile ='cut' + fileName; 
+
     if (!isValid) {
       // throes error if file isn't valid
       return res.status(400).json({
@@ -168,28 +169,44 @@ Bio.photoUpdate = async function (req, res) {
     } catch (error) {
       console.log(error);
     }
-      
-      Bio.findById(req.params.bio_id, function (err, bio) {
-        if (err) return  res.send(err);
-        bio.avatar = fileName;
-        
-          getColors(path.join(uploadFolder, fileName)).then(colors => {
-            bio.background = helpers.getContrastYIQ(colors[0].css())
-            bio.save(function (err) {
-              if (err) return res.json(err);
-              return res.json({
-                message: "Bio Updated Successfully",
-                data:  bio,
-              });
-            });
-          }).catch(error => {
-            console.log(error)
-            res.json({
-              error,
-            });
-          })
+    try{
+      sharp(path.resolve(uploadFolder, inputFile))
+        .resize({ height: 200, width: 150 })
+        .toFile(path.resolve(uploadFolder, outputFile))
+        .then(function (newFileInfo) {
+        })
+        .catch(function (err) {
+          console.log(err);
         });
-    } 
+        
+    } catch(error){
+      console.log(error)
+    }
+
+    Bio.findById(req.params.bio_id, function (err, bio) {
+      if (err) return res.send(err);
+      bio.avatar = fileName;
+      bio.cutAvatar = outputFile
+
+      getColors(path.join(uploadFolder, fileName))
+        .then((colors) => {
+          bio.background = helpers.getContrastYIQ(colors[0].css());
+          bio.save(function (err) {
+            if (err) return res.json(err);
+            return res.json({
+              message: "Bio Updated Successfully",
+              data: bio,
+            });
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          res.json({
+            error,
+          });
+        });
+    });
+  }
 };
 Bio.delete = function (req, res) {
   Bio.deleteOne(

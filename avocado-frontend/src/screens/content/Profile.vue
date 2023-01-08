@@ -86,7 +86,7 @@ export default {
         });
     },
     imageuploaded(res) {
-      this.avatar = `${backLink}${res.data.avatar}`;
+      this.avatar = `${backLink}${res.data.cutAvatar}`;
       console.log(res.data)
       this.$store.commit('updateAvatar', res.data.avatar);
     },
