@@ -10,7 +10,7 @@
 </template>
 
 <script>
-
+import {getToken} from "./helpers.js";
 
 export default {
   name: 'App',
@@ -29,6 +29,9 @@ export default {
     }
   },
   mounted() {
+    if(!getToken("user")){
+      return 
+    }
     this.$store.dispatch('getAvo');
   }
 }

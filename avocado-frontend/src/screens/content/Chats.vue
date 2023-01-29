@@ -1,7 +1,8 @@
 <template>
-  <div v-for="(item, index) in chats" :key="index" class="messages">
-    <Chat :chat="item" v-on:click="goToChat(item._id)" />
-  </div>
+    <div v-if="chats.length == 0" class="site__content--chats">скоро тут появятся чаты</div>
+    <div v-for="(item, index) in chats" :key="index" class="messages">
+      <Chat :chat="item" v-on:click="goToChat(item._id)" />
+    </div>
 </template>
 <script>
 import Chat from "./Chat.vue";
@@ -30,6 +31,7 @@ export default {
           this.chats = data.data;
         });
     },
+
     goToChat(item) {
       axios.get(`${url}/chat/${item}`, {}).then(({ data }) => {
         router.push({ path: `/messages/${data.data._id}`});
@@ -45,5 +47,15 @@ export default {
 .messages {
   display: flex;
   flex-direction: column;
+}
+.site__content--chats{
+  /* background-color: rgba(189, 233, 145, 0.8);
+  border-radius: 5px;
+  width: 500px;
+  height: 600px; */
+  margin: auto;
+  margin-top: 40px;
+  font-size: 28px;
+  /* padding: 30px 0 0 0; */
 }
 </style>

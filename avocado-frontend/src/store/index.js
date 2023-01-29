@@ -25,7 +25,7 @@ const store = createStore({
         state.checked = payload
       },
       updateColor(state, payload){
-        console.log('store',payload)
+
         state.color = payload
       }
     },

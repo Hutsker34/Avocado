@@ -17,7 +17,7 @@
     </header>
     <div class="site__wrap">
       <article class="site__content">
-        <router-view />
+        <router-view/>
       </article>
       <aside class="site__menu">
         <router-link class="site__menu-link" to="/profile">profile</router-link>
@@ -63,6 +63,7 @@ export default {
         })
         .then( ({ data }) => {
             this.userName = data.data.name;
+            this.$store.commit('updateColor', data.data.background);
             this.$store.commit('updateAvatar', data.data.avatar);
         });
     },
@@ -82,6 +83,7 @@ export default {
 .site {
   margin: 0;
 }
+
 .avo__span{
   border-radius: 35px;
   width: 50px;

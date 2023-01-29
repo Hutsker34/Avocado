@@ -185,9 +185,12 @@ Bio.photoUpdate = async function (req, res) {
 
     Bio.findById(req.params.bio_id, function (err, bio) {
       if (err) return res.send(err);
+      if (bio == null) return res.status(404).json({
+        status: "Fail",
+        message: "Авторизуйтесь заново",
+      });
       bio.avatar = fileName;
       bio.cutAvatar = outputFile
-
       getColors(path.join(uploadFolder, fileName))
         .then((colors) => {
           bio.background = helpers.getContrastYIQ(colors[0].css());

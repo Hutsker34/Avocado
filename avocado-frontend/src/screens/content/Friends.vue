@@ -1,4 +1,5 @@
 <template >
+    <div v-if="users.length == 0" class="site__content--chats">скоро тут появятся друзья</div>
     <div v-for="(item, index) in users" :key="index" class='messages'>
         <Friend v-on:click='addChat(item._id)' class='message' :friend='item' />
     </div>
@@ -53,6 +54,16 @@ export default {
         display: flex;
         flex-direction: column;
     }
+    .site__content--chats{
+        /* background-color: rgba(189, 233, 145, 0.8);
+        border-radius: 5px;
+        width: 500px;
+        height: 600px; */
+        margin: auto;
+        margin-top: 40px;
+        font-size: 28px;
+        /* padding: 30px 0 0 0; */
+}
     .message{
         width: 100%;
         height: 86px;

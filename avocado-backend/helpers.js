@@ -11,7 +11,8 @@ const getUserId = (req) => {
         const authHeader = req.headers.authorization;
         token = authHeader.split(': ')[1];
     } catch(error){
-        console.log(error)
+        // console.log(error)
+        return ''
     }
     return jwt.verify(token, `${KEY}`);
 };

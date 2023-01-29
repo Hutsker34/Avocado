@@ -83,12 +83,14 @@ export default {
           if (data.data.avatar) {
             this.avatar = `${backLink}${data.data.avatar}`;
           }
-        });
+        }).catch((err) => {
+          console.log(err)
+        })
     },
     imageuploaded(res) {
       this.avatar = `${backLink}${res.data.cutAvatar}`;
-      console.log(res.data)
-      this.$store.commit('updateAvatar', res.data.avatar);
+      this.$store.commit('updateAvatar', res.data.cutAvatar);
+      this.$store.commit('updateColor', res.data.background);
     },
     patchImg() {
       return `http://localhost:3006/api/photo/${getToken("user")._id}`;
@@ -119,6 +121,9 @@ export default {
   },
 
   mounted() {
+    if(!getToken("user")._id){
+      return
+    }
     this.getUserName();
       axios.get(`${url}/post/${getToken("user")._id}`, {}).then(({ data }) => {
         this.mus = data.data;
