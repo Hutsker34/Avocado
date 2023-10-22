@@ -1,7 +1,7 @@
 import { createWebHashHistory, createRouter } from "vue-router";
 
 import RegistarationScreen from '../screens/RegistrationScreen'
-import SignInScreen from '../screens/SignInScreen'
+
 import ContentScreen from '../screens/ContentScreen'
 import Chats from '../screens/content/Chats'
 import Friends from '../screens/content/Friends'
@@ -11,15 +11,11 @@ import Sandbox from '../screens/content/Sandbox'
 
 const routes = [
     {
-        path: '/regist',
+        path: '/',
         name: 'RegistrationScreen',
         component: RegistarationScreen
     },
-    {
-        path: '/',
-        name: 'SignInScreen',
-        component: SignInScreen
-    },
+    
     {
         path: '/content',
         name: 'ContentScreen',

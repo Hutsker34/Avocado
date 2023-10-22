@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serf": "SET NODE_OPTIONS=--openssl-legacy-provider && nodemon server.js"
+    "serf": "SET NODE_OPTIONS=--openssl-legacy-provider && node server.js"
   },
   "keywords": [],
   "author": "",
